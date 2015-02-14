@@ -6,9 +6,65 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[left=2cm,right=1.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{fancyhdr}
+
+%----------------------------------------------------------------------------------------
+%Pagination en chiffre romain
+%----------------------------------------------------------------------------------------
+\pagenumbering{roman}
+
+%----------------------------------------------------------------------------------------
+%Figure en chiffre romain
+%----------------------------------------------------------------------------------------
+\renewcommand{\thefigure}{\Roman{figure}}
+
+%----------------------------------------------------------------------------------------
+% Création du style 
+%----------------------------------------------------------------------------------------
+\fancypagestyle{EPHEC}{%
+  \fancyhf{}% Clear header and footer
+  \fancyhead[R]{\thepage}% Custom header
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}}
+
+%----------------------------------------------------------------------------------------
+%Redéfinition du style plain
+%----------------------------------------------------------------------------------------
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}}
+
+\pagestyle{EPHEC}
 
 \begin{document}
 \input{cover}
+\begin{abstract}
+Test
+\end{abstract}
 \tableofcontents
+\clearpage
+\input{introduction}
+\pagenumbering{arabic}
+\part{Technologies}
+\chapter{Secure Sockets Layer (SSL)/Transport Layer Security (TLS)}
+\chapter{Internet Protocol Secure (IPsec)}
+\chapter{Virtual Private Network (VPN)}
+\part{Software}
+\chapter{Cisco Adaptive Security Appliance}
+\section{Cisco AnyConnect VPN}
+\section{Cisco Clientless SSL VPN}
+\section{IPsec Remote Access}
+\chapter{Pulse Connect Secure}
+\chapter{Direct Access}
+\chapter{Outlook Anywhere}
+\part{Analyse comparative}
+\chapter{Critères de comparaison}
+\chapter{Procèdures des tests}
+\chapter{Résultats}
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
 \end{document}
