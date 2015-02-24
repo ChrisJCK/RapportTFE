@@ -6,8 +6,17 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage[left=2cm,right=1.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{geometry}
 \usepackage{fancyhdr}
+%----------------------------------------------------------------------------------------
+%Mise en page
+%----------------------------------------------------------------------------------------
+\geometry{ a4paper,
+				   left=20mm,
+				   top=25mm,
+				   right=15mm,
+				   bottom=25mm,
+				   headheight=13.6pt} 
 
 %----------------------------------------------------------------------------------------
 %Pagination en chiffre romain
@@ -45,26 +54,13 @@
 Test
 \end{abstract}
 \tableofcontents
+\listoftables
+\listoffigures
 \clearpage
 \input{introduction}
 \pagenumbering{arabic}
-\part{Technologies}
-\chapter{Secure Sockets Layer (SSL)/Transport Layer Security (TLS)}
-\chapter{Internet Protocol Secure (IPsec)}
-\chapter{Virtual Private Network (VPN)}
-\part{Software}
-\chapter{Cisco Adaptive Security Appliance}
-\section{Cisco AnyConnect VPN}
-\section{Cisco Clientless SSL VPN}
-\section{IPsec Remote Access}
-\chapter{Pulse Connect Secure}
-\chapter{Direct Access}
-\chapter{Outlook Anywhere}
-\part{Analyse comparative}
-\chapter{Critères de comparaison}
-\chapter{Procèdures des tests}
-\chapter{Résultats}
-
-\chapter*{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}
+\input{situation}
+\input{techno}
+\input{comparaison}
+\input{conclusion}
 \end{document}
