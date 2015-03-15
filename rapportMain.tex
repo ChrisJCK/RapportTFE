@@ -8,6 +8,17 @@
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{fancyhdr}
+\usepackage{chngcntr}
+\usepackage{xtab}
+
+%----------------------------------------------------------------------------------------
+%Tikz
+%----------------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows,matrix}
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{header} = [rectangle, minimum height=1.2cm, minimum width=1cm, text width = 2cm, text centered, draw =black,anchor=center] 
+
 %----------------------------------------------------------------------------------------
 %Mise en page
 %----------------------------------------------------------------------------------------
@@ -26,6 +37,7 @@
 %----------------------------------------------------------------------------------------
 %Figure en chiffre romain
 %----------------------------------------------------------------------------------------
+\counterwithout{figure}{chapter}
 \renewcommand{\thefigure}{\Roman{figure}}
 
 %----------------------------------------------------------------------------------------

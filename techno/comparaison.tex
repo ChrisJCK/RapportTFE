@@ -1,0 +1,43 @@
+Dans ce chapitre, je réalise un comparatif théorique des technologies décrites dans le chapitre précédent.
+Je précise, dans un premier temps, les critères de comparaison.
+Puis, je présente le tableau.
+Finalement, je réalise une analyse de ce tableau.
+\section{Les critères de comparaison}
+Tous les protocoles décrits dans le chapitre \ref{ch:dscrp} visent un même but, mais en ayant des implémentations différentes.
+Pour pouvoir les différencier, il est utile de réaliser un comparatif sur des critères pertinents.
+Les critères que j'ai sélectionné sont : 
+\begin{itemize}
+	\item La facilité de configuration
+	\item Le type de VPN
+	\item La couche de protection
+	\item L'intégrité des données
+	\item L'authentification
+	\item Le chiffrement
+\end{itemize}
+D'un point de vue purement technique, la facilité de configuration précise le degré de complexité pour mettre en place un tunnel VPN en utilisant une technologie.
+
+\section{Tableau de comparaison}
+\begin{center}
+\bottomcaption{Tableau de comparaison théorique des technologies d'accès à distance}
+\label{tab:techno}
+\tablehead{\hline Protocoles & Facilité de configuration\\}
+\begin{xtabular}{|c|c|}
+\hline
+ IPSec (AH, tunnel) & ++\\
+ \hline
+ IPSec (ESP, tunnel) & ++ \\
+ \hline
+ IPSec (AH, transport) & +++ \\
+ \hline
+ IPSec (ESP, transport) & +++ \\
+ \hline
+ SSL/TLS & ++++\\
+ \hline
+ SSH & ++++ \\
+ \hline
+ SSTP & ++++ \\
+ \hline
+ HTTPS & +++++ \\
+ \hline
+\end{xtabular}
+\end{center}

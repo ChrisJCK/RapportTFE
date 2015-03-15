@@ -1,0 +1,174 @@
+\section{Internet Protocol Security - IPSec}
+IPsec est un ensemble de protocole visant à sécuriser les données au niveau de la couche réseau. 
+Il est composé de trois protocoles : AH (\textit{Authentication Header}), ESP (\textit{Encapsulating Security Payload}) et IKE (\textit{Internet Key Exchange}).
+IKE est utilisé lors de la négociation des paramètres du tunnel VPN. 
+Les deux autres protocoles fournissent la sécurité des données en les encapsulant au sein du tunnel VPN. 
+
+\subsection{Les protocoles AH et ESP}
+Le protocole AH fournit une authentification sur la source du paquet, l'intégrité des données et une protection contre les attaques par rejeu. 
+Le protocole ESP fournit les mêmes sécurités que AH, sauf qu'il n'authentifie l'en-tête IP des paquets. 
+Il fournit en plus la confidentialité des données en chiffrant une partie du paquet. 
+AH et ESP peuvent travailler en mode tunnel ou en mode transport. 
+
+Le mode transport est utilisé lorsque les terminaisons du tunnel VPN sont les destinataires finaux de la communication. 
+Ce mode offre une sécurité de bout en bout. 
+Au niveau des paquets, les en-têtes AH et ESP sont placés après l'en-tête IP, il n'y a donc qu'un seul en-tête IP.
+
+Le mode tunnel est plus souple, mais il consomme plus de bande passante. 
+Les destinataires finaux sont connectés via des passerelles VPN. 
+Il n'y a pas de différence entre les VPN site-à-site et les VPN client-à-site. 
+Les passerelles VPN ont pour objectif d'encapsuler les paquets pour les faire passer dans le tunnel VPN. 
+Nous trouvons donc dans le paquet encapsulé l'en-tête IP du paquet d'origine (voir Fig.\ref{fig:encapIPS} p.\pageref{fig:encapIPS}). 
+Comme le paquet est passé à travers la passerelle, il possède un deuxième en-tête IP qui sert au routage entre les deux passerelles.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+	\matrix[matrix of nodes,]{
+	\node [header] {IP};
+	&
+	\node [header] {Payload};
+	& & & &
+	\node {Paquet d'origine};\\[0.7cm]
+	\node [header] {IP};
+	&
+	\node [header] {AH};
+	&
+	\node [header] {Payload}; 
+	& & &
+	\node {AH, mode trasnport};\\[0.7cm]
+	\node [header] {IP};
+	&
+	\node [header] {ESP};
+	&
+	\node [header] {Payload (chiffré)}; 
+	&
+	\node [header] {ESP};
+	&	&
+	\node {ESP, mode transport};\\[0.7cm]
+	\node [header] {IP (tunnel)};
+	&
+	\node [header] {AH};
+	&
+	\node [header] {IP}; 
+	&
+	\node [header] {Payload};
+	&&
+	\node {AH, mode tunnel};\\[0.7cm]
+	\node [header] {IP (tunnel)};
+	&
+	\node [header] {ESP};
+	&
+	\node [header] {IP (chiffré)}; 
+	&
+	\node [header] {Payload (chiffré)};
+	&
+	\node [header] {ESP};
+	&
+	\node {ESP, mode tunnel};\\
+};
+\end{tikzpicture}
+\caption{Schéma des encapsulations IPSec}
+\label{fig:encapIPS}
+\end{figure} 
+
+\subsection{Security association}
+Quand nous parlons de monter un tunnel, en réalité, nous synchronisons un état partagé entre les terminaisons du tunnel. 
+Cet état partagé se nomme une SA (\textit{security association}) en IPSec. 
+Une SA contient l'algorithme de chiffrement utilisé et les clés utilisées, l'algorithme d'authentification, un numéro d'identifiant, le \textit{security parameter index} (SPI), … 
+Plus d'autres paramètres qui servent à maintenir les tunnels VPN. 
+Les SA peuvent être créées manuellement ou gérées par l'IKE. 
+Chaque terminaison possède deux SA, une pour le trafic entrant et une pour le trafic sortant. 
+De plus, chaque pair est lié à un protocole. 
+Les SA se caractérisent par un triplet formé du SPI, de l'adresse de destination et du protocole. 
+Les SA sont stockées dans une SAD (\textit{security association database}). 
+Cette SAD est utilisée pour déterminer quel protocole est utilisé pour les paquets sortants et pour fournir les paramètres pour déchiffrer et/ou authentifier les paquets entrants. 
+Il est possible de combiner les SA pour créer des tunnels VPN complexe. 
+
+Les SA sont des éléments simples, c'est-à-dire qu'elles traitent tous les paquets de la même manière. 
+Pour un réglage plus fin, IPSec utilise des policies. 
+Ces policies se basent sur les champs suivants des en-têtes du paquet.
+\begin{itemize}
+\item L'adresse de destination
+\item L'adresse source
+\item Le protocole de la couche transport
+\item Le port source
+\item Le port de destination
+\end{itemize}
+Elles servent à déterminer quels paquets à émettre sur quel tunnel, à dropper les paquets ne correspondant à aucune des règles décrites dans les policies. 
+De la même manière que les SA, les policies sont stockées dans une SPD (\textit{security policy database}). 
+Le fonctionnement est similaire, pour chaque paquet entrant ou sortant, le système consulte la SPD pour déterminer les règles à appliquer au paquet. Si une règle est trouvé, le système cherche après la SA correspondante.
+
+\subsection{Le protocole IKE}
+IKE a un seul objectif : procéder à des échanges de clé Diffie-Hellman pour sécuriser un tunnel VPN. 
+Il négocie le chiffrement, l'authentification nécessaire au tunnel, qui satisfont les policies. 
+
+IKE dérive du \textit{Internet Security Association and Key Management} Protocol (ISAKMP). 
+ISAKMP est un framework qui fournit des outils pour la sécurisation des échanges et l'échange de clé. 
+De plus, IKE utilise différents mode du protocole OAKLEY.
+Il établit une SA en deux phases et il possède cinq modes d'échange, dont trois découlent ISAKMP.
+Les deux derniers modes ne sont utilisés que lors de la phase deux.
+
+\subsubsection{La phase 1 d'IKE}
+La phase 1 crée un canal sécurisé entre les terminaux du tunnel pour déterminer les SA. Le canal sécurisé est créé après l'authentification des terminaux. Les SA de la phase 1 sont bidirectionnelles, c'est-à-dire qu'une SA sécurise le trafic entrant et sortant. 
+Pour l'échange des SA de la phase 1, IKE possède deux modes d'échanges : 
+\begin{itemize}
+	\item Main mode
+	\item Agressive mode
+\end{itemize}
+Pour l'authentification d'un terminal, il existe quatre méthodes : 
+\begin{itemize}
+	\item a shared secret 
+	\item a digital signature
+	\item public key encryption
+	\item revised public key encryption
+\end{itemize}
+Le mode \textit{"main"} d'IKE travaille en trois étapes (voir Fig.\ref{fig:ipsmain} p.\pageref{fig:ipsmain}). 
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+	\draw[-,ultra thick] (0,7) node [above] {Initiator} -- (0,0) ;
+	\draw[-,ultra thick] (7,7) node [above] {Responder}-- (7,0);
+	\draw[arrow] (0,6) -- (7,6) node [midway,above] {HDR - SA};
+	\draw[arrow] (7,5) -- (0,5) node [midway,above] {HDR - SA};
+	\draw[arrow] (0,4) -- (7,4) node [midway,above] {HDR - KE - NONCE$_i$};
+	\draw[arrow] (7,3) -- (0,3) node [midway,above] {HDR - KE - NONCE$_r$};
+	\draw[arrow] (0,2) -- (7,2) node [midway,above] {HDR - ID$_i$ - \textit{AUTH}};
+	\draw[arrow] (7,1) -- (0,1) node [midway,above] {HDR - ID$_r$ - \textit{AUTH}};
+\end{tikzpicture}
+\caption{IPsec : mode "main"}
+\label{fig:ipsmain}
+\end{figure}
+Premièrement, l'initiateur envoie un message contenant une liste des méthodes de sécurisation qu'il utilise. 
+Le receveur choisit dans la liste reçue la méthode correspondant à ses policies et envoie sa décision à l'initiateur. 
+Ensuite, ce dernier envoie sa clé privée pour créer le secret partagé de l'algorithme de Diffie-Hellman. 
+Le receveur fait de même. Ils sont donc capables tous les deux de créer les clés. 
+Les clés dépendent des méthodes d'authentification choisies. 
+Finalement, l'initiateur envoie son identité et des informations sur l'authentification. 
+Ces messages sont chiffrés et masquent donc l'identité des terminaux. 
+L'échange se fait en six messages.
+
+À la fin de ce mode, les terminaux sont d'accord sur les algorithmes de chiffrement et de confidentialité des données. 
+Ils possèdent également les clés pour les algorithmes sélectionnés. 
+
+Le mode \textit{"agressive"} fait le même travail de façon plus rapide, il n'utilise que trois messages (voir Fig.\ref{fig:ipsagg} p.\pageref{fig:ipsagg}).
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+	\draw[-,ultra thick] (0,4) node [above] {Initiator} -- (0,0) ;
+	\draw[-,ultra thick] (8,4) node [above] {Responder}-- (8,0);
+	\draw[arrow] (0,3) -- (8,3) node [midway,above] {HDR - SA - KE - NONCE$_i$ - ID$_i$};
+	\draw[arrow] (8,2) -- (0,2) node [midway,above] {HDR - SA - KE - NONCE$_r$ - ID$_r$ - \textit{AUTH}};
+	\draw[arrow] (0,1) -- (8,1) node [midway,above] {HDR - \textit{AUTH}};
+\end{tikzpicture}
+\caption{IPsec : mode "agressive"}
+\label{fig:ipsagg}
+\end{figure} 
+Lors du premier envoi, l'initiateur émet la liste des méthodes de sécurisation, son identité et sa clé. 
+Le receveur répond par son choix de sécurisation, sa clé, son identité et ses identifiants. 
+Finalement l'initiateur s'authentifie auprès du receveur. 
+Ce dernier message peut être chiffré.
+\subsubsection{La phase 2 d'IKE}
+Une fois la SA établie, les terminaux peuvent l'utiliser pour négocier les SA de phase 2. 
+La phase 2 est un échange en Quick mode. 
+L'échange se fait en trois messages. 
+Lors de l'échange, il est possible de négocier plusieurs SA en même temps. 
