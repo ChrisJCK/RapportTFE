@@ -1,19 +1,22 @@
 \section{Secure sockets layer - SSL}
 Netscape a lancé SSL 1 en 1994, dans le but de sécuriser des transactions réalisées avec leur navigateur. 
 Dans la même année, SSL 2 était déjà en route. 
-Mais le protocole montrait déjà des problèmes de sécurité.
+Mais le protocole montrait déjà des vulnérabilités.
 Fin 1995, SSL 3 était lancé. 
 Il s'agissait d'une version complètement récrite de SSL, qui introduisait de nouvelles fonctionnalités issues de PCT\footnote{Microsoft's \textit{Private Communications Technology}}.
 Bien que les machines actuelles intègrent SSL 3, elles essaient d'abord de négocier une connexion en SSL 2.
 
-Dans un effort de standardisation de SSL, l'IETF a lancé le protocole TLS\footnote{Transport Layer Security}.
-Il se base principalement sur SSL 3 bien qu'il ne soit pas compatible avec ce dernier.
-
-SSL utilise des suites de chiffrement. Ces suites se composent de trois fonctions de chiffrement : la méthode d'échange de clé, l'algorithme de chiffrement et une méthode de hachage. 
-Il existe un large ensemble de suite, les client ont donc un mécanisme pour signaler les suites qu'ils gèrent et qu'ils utilisent. 
+SSL utilise des suites de chiffrement. 
+Ces suites se composent de trois fonctions de chiffrement : la méthode d'échange de clé, l'algorithme de chiffrement et une méthode de hachage. 
+Il existe un large ensemble de suite, les clients envoient la liste des suites qu'ils savent gerer au serveur. 
+Ce dernier choisit, dans la liste, une suite qu'il implémente. 
 
 OpenSSL est l'implémentation la plus courante de SSL. 
-Cette implémentation possède un interface en ligne de commande, qui permet de générer des clés RSA, signer des certificats, calculer des valeurs de hash, ...
+Cette implémentation possède un interface en ligne de commande, qui permet de générer des clés RSA, signer des certificats, calculer des valeurs de hash, etc..
+
+Dans un effort de standardisation de SSL, l'IETF a lancé le protocole TLS\footnote{Transport Layer Security}.
+Il se base principalement sur SSL 3 bien qu'il ne soit pas compatible avec ce dernier.
+L'utilisation de SSL est déconseillé suite à de nombreuses vulnérabilités détectées ces derniers temps (FREAK (2015), Hearthbleed (2014), BEAST (2013), etc.).
 
 \subsection{Le protocole SSL}
 SSL est un protocole de la couche transport, il utilise donc les protocoles de cette couche pour le transfert des données. 
@@ -33,16 +36,19 @@ De manière analogue à TCP, une session SSL se divise en trois phase (voir Fig.
 	\draw[arrow] (0,10) -- (6,10) node [midway,above] {Handshake : ClientHello};
 	\draw[arrow] (6,9) -- (0,9) node [midway,above] {Handshake : ServerHello};
 	\draw[arrow] (6,8.4) -- (0,8.4) node [midway,above] {Handshake : Certificate};
-	\draw[arrow] (6,7.8) -- (0,7.8) node [sloped, midway,above] {Handshake : ServerHelloDone};
+	\draw[arrow] (6,7.8) -- (0,7.8) node [midway,above] {Handshake : ServerHelloDone};
 	\draw[arrow] (0,6.8) -- (6,6.8) node [midway,above] {Handshake : KeyExchange};
 	\draw[arrow] (0,6.2) -- (6,6.2) node [midway,above] {ChangeCipherSpec};
 	\draw[arrow] (0,5.6) -- (6,5.6) node [midway,above] {Handshake : Finished};
 	\draw[arrow] (6,4.6) -- (0,4.6) node [midway,above] {ChangeCipherSpec};
 	\draw[arrow] (6,4) -- (0,4) node [midway,above] {Handshake : Finished};
+	\draw[|-|,ultra thick] (6.5,10.8) -- (6.5,3.8) node [midway,right] {\'Etablissement de la connexion};
 	\draw[arrow] (0,2.6) -- (6,2.6);
 	\draw[arrow] (6,2) -- (0,2) node [midway,above] {Application Data};
+	\draw[|-|,ultra thick] (6.5,2.8) -- (6.5,1.8) node [midway,right] {Transfert des données};
 	\draw[arrow] (0,0.8) -- (6,0.8);
 	\draw[arrow] (6,0.2) -- (0,0.2) node [midway,above] {Alert Close Notify};
+	\draw[|-|,ultra thick] (6.5,1) -- (6.5,0) node [midway,right] {Clôture de la session};
 \end{tikzpicture}
 \caption{Session SSL}
 \label{fig:ssl}
@@ -58,9 +64,8 @@ Le serveur répond par trois messages.
 	\item Le certificat du serveur permet au client de vérifier l'identité du serveur et contient la clé publique du serveur. Cette clé va servir à générer les différents clés pour la session.
 	\item Le message \textit{ServerHelloDone} précise la fin de la séquence \textit{Hello}.
 \end{enumerate}
-Suite à ces trois messages, le client donne au serveur des inputs pour la génération des clés (\textit{ClientKeyExchange}), signal au serveur qu'il utilise les nouvelles clés pour le chiffrement et l'authentification (\textit{ChangeCipherSpec}) et qu'il a fini le handshake (\textit{Finished}).
- Le serveur répond avec son message \textit{ChangeCipherSpec} et son \textit{Finished}.
+Suite à ces trois messages, le client donne au serveur des inputs pour la génération des clés (\textit{ClientKeyExchange}), signal au serveur qu'il utilise les nouvelles clés pour le chiffrement et l'authentification (\textit{ChangeCipherSpec}) et qu'il a fini le handshake (\textit{Finished}). Le serveur répond avec son message \textit{ChangeCipherSpec} et son \textit{Finished}.
  
- Le client et le serveur sont capables de s'échanger des données de façon sécurisé. 
- 
- Finalement, la session est clôturée.
+Le client et le serveur sont capables de s'échanger des données de façon sécurisé. 
+
+Finalement, la session est clôturée.
