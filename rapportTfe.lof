@@ -7,10 +7,10 @@
 \contentsline {figure}{\numberline {I}{\ignorespaces Sch\IeC {\'e}ma des encapsulations IPSec}}{10}
 \contentsline {figure}{\numberline {II}{\ignorespaces IPsec : mode "main"}}{12}
 \contentsline {figure}{\numberline {III}{\ignorespaces IPsec : mode "agressive"}}{12}
-\contentsline {figure}{\numberline {IV}{\ignorespaces Session SSL}}{13}
+\contentsline {figure}{\numberline {IV}{\ignorespaces Session SSL}}{14}
 \contentsline {figure}{\numberline {V}{\ignorespaces \'Echange pour un \textit {handshake} TLS}}{15}
 \contentsline {figure}{\numberline {VI}{\ignorespaces \'Echange pour un \textit {handshake} TLS avec un ID de session}}{16}
-\contentsline {figure}{\numberline {VII}{\ignorespaces \'Echange pour un \textit {handshake} TLS avec un ticket de session}}{16}
+\contentsline {figure}{\numberline {VII}{\ignorespaces \'Echange pour un \textit {handshake} TLS avec un ticket de session}}{17}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -7,7 +7,7 @@ Maintenant, les VPN sont basés sur l'Internet dont l'avantage principal est son
 Mais en utilisant l'Internet, les données privées deviennent accessibles à tout le monde. 
 Il a donc été nécessaire de fournir des protocoles permettant d'assurer la confidentialité et l'intégrité des données à travers le réseau public. 
 
-Un tunnel VPN est monté entre deux passerelles VPN ou entre deux hôtes. 
+Un tunnel VPN est monté soit entre deux passerelles VPN soit entre deux hôtes soit entre une passerelle VPN et un hôte. 
 Les deux équipements sont d'un point de vue logique connectées directement l'une à l'autre. 
 Le tunnel permet d'envoyer des données du réseau privé à travers le réseau public.
 Il encapsule les données dans un protocole compris par les deux extrémités. 
@@ -22,18 +22,15 @@ Ils sont utilisés pour connecter des sites entre eux.
 Le tunnel est monté entre deux passerelles VPN dont les configurations sont connues. 
 Le réseau Internet opère comme une liaison WAN entre les sites. 
 Les employées peuvent échanger des informations entre les différents sites comme s'ils sont connectés sur le site distant. 
-Dans ce cas-ci, nous utilisons principalement des tunnels VPN IPsec. 
 
 \subsubsection{Les VPN client-à-site} 
 Ils sont généralement utilisés par des travailleurs pour accéder aux ressources de l'entreprise depuis des emplacements non fiables.  
 L'utilisateur se connecte via son ordinateur ou son smartphone à la passerelle VPN de son entreprise.  
 Dans ce cas, la configuration n'est pas connue, car selon la localisation de l'utilisateur, les paramètres de connexion changent.  
 Il est souvent nécessaire d'installer sur l'appareil mobile un client VPN. 
-Nous utilisons majoritairement des tunnels VPN SSL pour leur simplicité de configuration. 
-Bien qu'il soit possible de créer des tunnels de ce type avec IPSec.
-L'utilisation de SSL est soumise à controverse depuis la découvert de \textit{Hearthbleed}.
 
-Avant de présenter les protocoles IPSec, SSL et TLS, intéressons-nous au protocole de tunneling.
+Ces types de VPN sont généralement des tunnels SSL/TLS en raison de leur facilité de configuration et de la mobilité qu'ils offrent.
+
 \subsection{Les protocoles de tunneling de couche 2}
 Avant de créer le tunnel, ces protocoles se mettent d'accord sur des paramètres de session, comme le protocole de chiffrement.
 Une fois les paramètres acceptés par les deux extrémités, le tunnel est monté.
@@ -68,4 +65,5 @@ Il est possible de faire de l'authentification et du chiffrement avec les paquet
 Il est donc intéressant d'associer L2TP avec un autre protocole de sécurité comme IPSec.
 
 PPTP  et L2TP ne possèdent pas un niveau de sécurité élevé pour être utilisé comme tunnel VPN à travers Internet.
+Cependant, PPTP est utilisé car il est simple à configurer et disponible sur la plupart des plateformes.
 Ils sont le plus souvent remplacer par des tunnels IPSec ou SSL, qui possèdent un meilleur niveau de sécurité.

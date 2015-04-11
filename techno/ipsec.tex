@@ -5,6 +5,18 @@ IKE est utilisé lors de la négociation des paramètres du tunnel VPN.
 Les deux autres protocoles fournissent la sécurité des données en les encapsulant au sein du tunnel VPN. 
 
 \subsection{Les protocoles AH et ESP}
+Le protocole AH permet uniquement l'authentification. 
+L'authentification se fait à l'aide d'un algorithme MAC \footnote{Message Authentication Code} tel que MD5 ou SHA-1.
+Cette algorithme prend en input des éléments de l'en-tête IP et calcule un IVC \footnote{Integrity Check Value}.
+L'IVC est ajouté dans l'en-tête AH et ce dernier est ajouté au paquet IP.
+
+Le protocole ESP permet l'authentification et le chiffrement des données.
+
+\subsection{Les modes transport et tunnel}
+Le mode transport est utilisé pour des connexions bouts-à-bouts entre deux hôtes.
+
+Le mode tunnel est préféré lorsque l'un ou les deux hôtes de la communication sont des passerelles VPN.
+ 
 Le protocole AH fournit une authentification sur la source du paquet, l'intégrité des données et une protection contre les attaques par rejeu. 
 Le protocole ESP fournit les mêmes sécurités que AH, sauf qu'il n'authentifie l'en-tête IP des paquets. 
 Il fournit en plus la confidentialité des données en chiffrant une partie du paquet. 
@@ -172,3 +184,13 @@ Une fois la SA établie, les terminaux peuvent l'utiliser pour négocier les SA 
 La phase 2 est un échange en Quick mode. 
 L'échange se fait en trois messages. 
 Lors de l'échange, il est possible de négocier plusieurs SA en même temps. 
+
+\subsection{IPSec et le NAT}
+Comme vu précédemment, IPSec protège les en-têtes des paquets IP. 
+L'utilisation d'un NAT est incompatible avec cette sécurité.
+
+Dans le cas du protocole AH, une modification des en-têtes entraine une erreur d'authentification. 
+Et dans le cas de ESP, la même modification provoque une erreur de "checksum".
+
+Une solution est d'utiliser le "NAT traversal".
+Il s'agit d'une simple encapsulation des paquets IPSec dans un paquet UDP.
