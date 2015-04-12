@@ -1,0 +1,13 @@
+La solution de Juniper se base sur une passerelle SSL.
+Dans ce cas-ci, on a utilisé une SA 2500 tournant sous JunOS 8.1.
+
+La configuration est facile, si on suit le guide d'administration.
+
+Commençons par un peu de terminologie.
+Sur la passerelle,j'ai configuré deux rôles et un \textit{realm}.
+Le \textit{realm} sert à l'authentification des utilisateurs.
+Les rôles décrivent les ressources accessibles aux utilisateurs.
+
+
+Ainsi dans le realm labotfe de la passerelle, les méthodes d'authentification sont sélectionnées.
+J'ai choisi une authentification via le Domain Controler du domaine \textit{labotfe.be}.
