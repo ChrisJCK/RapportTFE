@@ -12,76 +12,34 @@ L'IVC est ajouté dans l'en-tête AH et ce dernier est ajouté au paquet IP.
 
 Le protocole ESP permet l'authentification et le chiffrement des données.
 
+Un schéma des paquets formés est disponible sur la Fig.\ref{fig:ipsecHead} p.\pageref{fig:ipsecHead}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=16cm]{techno/IPSec-AH-ESP}
+	\caption{Format des paquets IPSec}
+	\label{fig:ipsecHead}
+\end{figure}
+
 \subsection{Les modes transport et tunnel}
 Le mode transport est utilisé pour des connexions bouts-à-bouts entre deux hôtes.
 
 Le mode tunnel est préféré lorsque l'un ou les deux hôtes de la communication sont des passerelles VPN.
- 
-Le protocole AH fournit une authentification sur la source du paquet, l'intégrité des données et une protection contre les attaques par rejeu. 
-Le protocole ESP fournit les mêmes sécurités que AH, sauf qu'il n'authentifie l'en-tête IP des paquets. 
-Il fournit en plus la confidentialité des données en chiffrant une partie du paquet. 
-AH et ESP peuvent travailler en mode tunnel ou en mode transport. 
 
-Le mode transport est utilisé lorsque les terminaisons du tunnel VPN sont les destinataires finaux de la communication. 
-Ce mode offre une sécurité de bout en bout. 
-Au niveau des paquets, les en-têtes AH et ESP sont placés après l'en-tête IP, il n'y a donc qu'un seul en-tête IP.
+\subsection{IPSec et le NAT}
+Comme vu précédemment (Fig.\ref{fig:ipsecHead} p.\pageref{fig:ipsecHead}), IPSec protège les en-têtes des paquets IP.
+Cette opération rend inutilisable IPSec derrière un NAT, ce qui diminue l'utilité du protocole.
+Pour palier à ce problème, une solution est d'encapsuler les paquets IPSec dans un autre paquet.
+Ainsi le NAT-T (NAT-Traversal) encapsule les paquets IPSec dans un paquet UDP avec le port 4500 (par défaut).
 
-Le mode tunnel est plus souple, mais il consomme plus de bande passante. 
-Les destinataires finaux sont connectés via des passerelles VPN. 
-Il n'y a pas de différence entre les VPN site-à-site et les VPN client-à-site. 
-Les passerelles VPN ont pour objectif d'encapsuler les paquets pour les faire passer dans le tunnel VPN. 
-Nous trouvons donc dans le paquet encapsulé l'en-tête IP du paquet d'origine (voir Fig.\ref{fig:encapIPS} p.\pageref{fig:encapIPS}). 
-Comme le paquet est passé à travers la passerelle, il possède un deuxième en-tête IP qui sert au routage entre les deux passerelles.
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}
-	\matrix[matrix of nodes,]{
-	\node [header] {IP};
-	&
-	\node [header] {Payload};
-	& & & &
-	\node {Paquet d'origine};\\[0.7cm]
-	\node [header] {IP};
-	&
-	\node [header] {AH};
-	&
-	\node [header] {Payload}; 
-	& & &
-	\node {AH, mode transport};\\[0.7cm]
-	\node [header] {IP};
-	&
-	\node [header] {ESP};
-	&
-	\node [header] {Payload (chiffré)}; 
-	&
-	\node [header] {ESP};
-	&	&
-	\node {ESP, mode transport};\\[0.7cm]
-	\node [header] {IP (tunnel)};
-	&
-	\node [header] {AH};
-	&
-	\node [header] {IP}; 
-	&
-	\node [header] {Payload};
-	&&
-	\node {AH, mode tunnel};\\[0.7cm]
-	\node [header] {IP (tunnel)};
-	&
-	\node [header] {ESP};
-	&
-	\node [header] {IP (chiffré)}; 
-	&
-	\node [header] {Payload (chiffré)};
-	&
-	\node [header] {ESP};
-	&
-	\node {ESP, mode tunnel};\\
-};
-\end{tikzpicture}
-\caption{Schéma des encapsulations IPSec}
-\label{fig:encapIPS}
-\end{figure} 
+AH ne passe pas les passerelles. 
+Car le moindre changement au niveau des adresses IP provoque une erreur dans l'IVC vu que l'authentification s'applique au paquet entier.
+
+Pour ESP, la situation est différente. 
+Le problème se situe au niveau de l'en-tête ESP, qui est un paquet de la couche réseau.
+Il ne possède pas d'information sur les ports, qui sont des éléments de la couche transport.
+Le PAT ne peut pas attribuer de port unique à ce paquet.
+Donc l'hôte n'est pas identifiable pour les réponses.
 
 \subsection{Security association}
 Quand nous parlons de monter un tunnel, en réalité, nous synchronisons un état partagé entre les terminaisons du tunnel. 
@@ -126,13 +84,6 @@ Pour l'échange des SA de la phase 1, IKE possède deux modes d'échanges :
 \begin{itemize}
 	\item Main mode
 	\item Agressive mode
-\end{itemize}
-Pour l'authentification d'un terminal, il existe quatre méthodes : 
-\begin{itemize}
-	\item a shared secret 
-	\item a digital signature
-	\item public key encryption
-	\item revised public key encryption
 \end{itemize}
 Le mode \textit{"main"} d'IKE travaille en trois étapes (voir Fig.\ref{fig:ipsmain} p.\pageref{fig:ipsmain}). 
 \begin{figure}[ht]
@@ -179,18 +130,16 @@ Lors du premier envoi, l'initiateur émet la liste des méthodes de sécurisatio
 Le receveur répond par son choix de sécurisation, sa clé, son identité et ses identifiants. 
 Finalement l'initiateur s'authentifie auprès du receveur. 
 Ce dernier message peut être chiffré.
+
+Pour l'authentification d'un terminal, il existe trois méthodes : 
+\begin{itemize}
+	\item Public Key Infrastructure 
+	\item Kerberos
+	\item Certificates
+\end{itemize}
+
 \subsubsection{La phase 2 d'IKE}
 Une fois la SA établie, les terminaux peuvent l'utiliser pour négocier les SA de phase 2. 
 La phase 2 est un échange en Quick mode. 
 L'échange se fait en trois messages. 
 Lors de l'échange, il est possible de négocier plusieurs SA en même temps. 
-
-\subsection{IPSec et le NAT}
-Comme vu précédemment, IPSec protège les en-têtes des paquets IP. 
-L'utilisation d'un NAT est incompatible avec cette sécurité.
-
-Dans le cas du protocole AH, une modification des en-têtes entraine une erreur d'authentification. 
-Et dans le cas de ESP, la même modification provoque une erreur de "checksum".
-
-Une solution est d'utiliser le "NAT traversal".
-Il s'agit d'une simple encapsulation des paquets IPSec dans un paquet UDP.
