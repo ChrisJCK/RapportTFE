@@ -1,0 +1,20 @@
+\section{DirectAccess}
+DirectAccess est apparu pour la première fois avec Windows 2008 R2.
+Son utilisation est peu répandu, car la configuration du service en 2008 R2 était fastidieuse. 
+Avec Windows 2012 R2, la configuration a été simplifiée.
+
+DirectAccess est une solution VPN sans client. 
+Elle autorise un utilisateur à se connecter aux ressources de sa société.
+La connexion se fait automatiquement dès que les policies sont vérifiées et que la machine dispose d'une connexion à Internet.
+
+Le service se base sur l'utilisation d'IPSec, mais aussi sur l'implémentation de IP-HTTPS.
+IP-HTTPS encapsule des paquets IPv6 dans des paquets Https. 
+
+\subsection{Pré-requis}
+DirectAccess est un produit Microsoft et ne fonctionne qu'avec du matériel Windows.
+Il y a donc des pré-requis à l'utilisation du service.
+\begin{itemize}
+	\item Serveur dédié pour DirectAccess
+	\item Utilisation d'un Domain Controller
+	\item Windows Client 7 Enterprise, 7 Ultimate, 8/8.1 Enterprise uniquement
+\end{itemize}

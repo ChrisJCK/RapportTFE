@@ -1,5 +1,5 @@
 \section{Internet Protocol Security - IPSec}
-IPsec est un ensemble de protocole visant à sécuriser les données au niveau de la couche réseau. 
+IPsec est un ensemble de protocole visant à sécuriser les données au niveau de la couche réseau (voir Fig.). 
 Il est composé de trois protocoles : AH (\textit{Authentication Header}), ESP (\textit{Encapsulating Security Payload}) et IKE (\textit{Internet Key Exchange}).
 IKE est utilisé lors de la négociation des paramètres du tunnel VPN. 
 Les deux autres protocoles fournissent la sécurité des données en les encapsulant au sein du tunnel VPN. 
@@ -85,7 +85,9 @@ Pour l'échange des SA de la phase 1, IKE possède deux modes d'échanges :
 	\item Main mode
 	\item Agressive mode
 \end{itemize}
-Le mode \textit{"main"} d'IKE travaille en trois étapes (voir Fig.\ref{fig:ipsmain} p.\pageref{fig:ipsmain}). 
+
+Le mode \textit{"main"} d'IKE travaille en trois étapes (voir Fig.\ref{fig:ipsmain} p.\pageref{fig:ipsmain}).
+Il est utilisé lorsque les terminaux possèdent des adresses IP statiques. 
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
@@ -114,6 +116,7 @@ L'échange se fait en six messages.
 Ils possèdent également les clés pour les algorithmes sélectionnés. 
 
 Le mode \textit{"agressive"} fait le même travail de façon plus rapide, il n'utilise que trois messages (voir Fig.\ref{fig:ipsagg} p.\pageref{fig:ipsagg}).
+Il est utilisé lorsque l'un des deux terminaux de la connexion possède une adresse IP dynamique.
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
@@ -133,10 +136,32 @@ Ce dernier message peut être chiffré.
 
 Pour l'authentification d'un terminal, il existe trois méthodes : 
 \begin{itemize}
-	\item Public Key Infrastructure 
 	\item Kerberos
-	\item Certificates
+	\item Certificats	
+	\item Public Key Infrastructure (PKI)
 \end{itemize}
+
+\paragraph{Kerberos}
+Kerberos est un protocole réseau d'authentification par clé chiffré.
+Il fournit une forte authentification à condition que tous les services utilisent Kerberos.
+Il a été conçue par le MIT\footnote{Massachusetts Institute of Technology} à la fin des années 80.
+Actuellement, il est recommandé d'utiliser la version 5, qui corrige des bugs critiques de la version 4.
+Kerberos est disponible sur la plupart des systèmes d'exploitation actuels.
+Une version gratuite est disponible sur le site du MIT, et il existe des versions commerciales.
+
+Pour qu'un hôte puisse se connecter à un service, le système vérifie son identité, et le cas échéant accepte ou refuse la connexion.
+Ce système repose sur deux serveurs sécurisés, un serveur d'authentification (AS\footnote{Authentication Server}) et un serveur d'octroi de ticket (TGS\footnote{Ticket-Granting Server}).
+Ils forment dans la terminologie Kerberos un centre de distribution de ticket ou KDC\footnote{Key Distribution Center} en anglais.
+De plus, Kerberos utilise des clés chiffrées pour toutes les communications.
+
+\paragraph{Certificat}
+Un certificat n'est rien de plus qu'une clé publique accompagné d'un identifiant dont l'ensemble des informations est signé par un tiers de confiance.
+Ce tiers est ce que l'on appelle une autorité certificative (CA). 
+Elle est reconnue au niveau mondiale.
+Un utilisateur envoie sa clé publique au CA et reçoit en retour, après vérification, son certificat signé par la CA.
+
+\paragraph{PKI}
+Une PKI est un ensemble de composants informatiques, humains et techniques dont le but est de gérer la distribution et la vie des certificats.
 
 \subsubsection{La phase 2 d'IKE}
 Une fois la SA établie, les terminaux peuvent l'utiliser pour négocier les SA de phase 2. 

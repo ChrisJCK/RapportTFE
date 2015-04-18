@@ -1,8 +1,7 @@
-Dans ce chapitre, on présente les technologies d'accès distants.
-Dans un premier temps, on commence par expliquer les notions des VPN et de tunnel VPN. 
-De plus, on y expose les protocoles de tunneling et de chiffrement.
-Par la suite, on détaille les protocoles qui peuvent former des tunnels VPN sécurisés. 
-Finalement, je passe en revue les solutions propriétaires et celles des fournisseurs d'accès pour les accès distants.
+Dans ce chapitre, je présente les technologies d'accès distants.
+Ces technologies sont bien connues, mais les implémentations des ces dernières par les différents acteurs varient de l'une à l'autre.
+Pour commencer, il me semble utile de définir les termes VPN et tunnel VPN.
+Par la suite, il est question d'expliquer et de détailler l'ensemble des protocoles liés à la sécurité des données.
 
 \input{techno/vpn}
 \input{techno/ipsec}
@@ -11,9 +10,13 @@ Finalement, je passe en revue les solutions propriétaires et celles des fournis
 \input{techno/ssh}
 \input{techno/sstp}
 \input{techno/https}
+\input{techno/directaccess}
 \input{techno/proprietaires}
 
 \section{Fournisseurs d'accès}
+Au début les VPN reposaient sur les réseaux des fournisseurs d'accès.
+Les sociétés devaient louées des lignes auprès de ces derniers. 
+Ces lignes reliaient directement les sites entre eux.
 \input{techno/atm}
 \input{techno/frameRelay}
 \input{techno/mpls}
