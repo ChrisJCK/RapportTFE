@@ -1,11 +1,11 @@
 \section{Solution Juniper/Pulse}
-La solution de Juniper se base sur une passerelle SSL.
-Dans ce cas-ci, on a utilisé une SA 2500 tournant sous Pulse Connect Secure 8.1R1.1.
-Les clients distants peuvent se connecter soit via le portail Web, soit via la client Pulse Secure.
+La solution de Juniper se base sur l'utilisation d'une passerelle SSL.
+Cette passerelle gère les connexions entrantes et attribue, aux connexions autorisées, l'accès aux ressources.
+La passerelle utilisée est une SA 2500 tournant sous Pulse Connect Secure 8.1R1.1.
+Les clients distants peuvent se connecter soit via le portail Web, soit via le client Pulse Secure.
 
-Lors de la première connexion, le client est obligé de passer par le portail Web.
-Il pourra alors télécharger le client et l'installer sur son ordinateur.
-Par la suite, il choisira entre le portail et le client.
+Le client Pulse Secure est fourni par la passerelle.
+Cette dernière peut distribuer le software à tous les utilisateurs authentifiés automatiquement ou en le téléchargeant via le portail Web.
 
 \subsection{Schéma de l'infrastructure}
 Comme la passerelle est accessible depuis l'extérieur, elle ne possède pas le même niveau de confiance que le LAN.
@@ -13,13 +13,14 @@ Elle est donc placée dans une DMZ.
 
 Le firewall sert de routeur entre le réseau du labo (externe) et le réseau de test (interne).
 Il gère aussi les \textit{policies}, c'est-à-dire les règles entre les zones de sécurité établies dans la configuration.
-Dans mon réseau de test, j'ai crée deux zones en plus de celles pré-définies : la zone "Computers" et "Servers".
+Dans mon réseau de test, j'ai créé deux zones en plus de celles pré-définies : la zone "Computers" et "Servers".
 
-Pour l'adressage (Fig.\ref{fig:if} p.\pageref{fig:if}), ma zone \textit{Untrust} est le labo. L'interface associé possède l'adresse 192.168.6.185.
+Pour l'adressage (Fig.\ref{fig:if} p.\pageref{fig:if}), ma zone \textit{Untrust} est le labo. 
+L'interface associé possède l'adresse 192.168.6.185.
 Les autres zones font parties du réseau de test et possèdent une adresse dans le réseau 172.16.0.0/16.
 J'utilise les VLAN 10 et 20 pour différencier le trafic des ordinateurs et des serveurs sur le même interface.
 L'utilisation de deux zones distinctes est une bonne pratique avec Juniper. 
-Il est plus intuitif de créer des \textit{policies} entre les zones, que de créer des ACL sur les interfaces.
+Il est plus claire de créer des \textit{policies} entre des zones, que de créer des ACL sur les interfaces.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=16cm]{juniper/interfaces.png}
@@ -30,7 +31,7 @@ Il est plus intuitif de créer des \textit{policies} entre les zones, que de cr�
 Pour autoriser l'accès à la passerelle, l'utilisation d'un mappage est indispensable.
 On a mappé l'adresse externe (192.168.6.209) avec l'adresse de la passerelle dans la DMZ (172.16.64.10).
 Le mappage ne suffit pas, il faut aussi autoriser le trafic entre la zone \textit{Untrust} et la DMZ (Fig.\ref{fig:polUnDMZ} p.\pageref{fig:polUnDMZ}).
-En suivant les règles de bonnes pratiques, j'autorise uniquement le trafic HTTPS et IKE entre un client en remote-access et la passerelle et je bloque tous les autres trafics.
+En suivant les règles de bonnes pratiques, j'autorise uniquement le trafic HTTPS et ESP entre un client en remote-access et la passerelle et je bloque tous les autres trafics.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=16cm]{juniper/Policy-Untrust-DMZ.png}
@@ -42,7 +43,7 @@ En suivant les règles de bonnes pratiques, j'autorise uniquement le trafic HTTP
 \subsubsection{\textit{Realm} et rôles}
 Pour commencer, on définit le \textit{realm} d'authentification.
 Il existe plusieurs possibilités, j'ai choisi d'utiliser une authentification simple via l'Active Directory.
-Ce mode d'authentification est fiable, mais pour une meilleure sécurité, il est intéressant de passer à une double authentification.
+Ce mode d'authentification est fiable, mais pour une sécurité renforcée, il est intéressant de passer à une double authentification.
 La double authentification s'active en cochant l'option dans la configuration du \textit{realm} (voir Fig.\ref{fig:confRealm} p.\pageref{fig:confRealm}).
 \begin{figure}[ht]
 	\centering
@@ -76,8 +77,15 @@ Pour une sécurité accrue lors de l'accès à cette page, j'ai activé le "Host
 Il permet de vérifier des propriétés de la machine du client pour autoriser l'accès à la "Sign-in Page".
 Dans ce cas-ci, l'"Host Checker" vérifie l'appartenance au domaine \textit{labotfe.be}. 
 
-Une fois la vérification du nom de domaine, l'utilisateur peut saisir ses identifiants sur le portail.
+Une fois la vérification du nom de domaine effectuée, l'utilisateur peut saisir ses identifiants sur le portail.
 Le portail permet au client d'accéder aux ressources, qui sont attribuées à son rôle.
+Les ressources accessibles sont définies sur la passerelle SSL en tant que \textit{bookmarks} (voir Fig.\ref{fig:bookmarks} p.\pageref{fig:bookmarks}).
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=16cm]{juniper/portail.png}
+	\caption{\textit{Bookmarks} associés à un membre du groupe It Tech}
+	\label{fig:bookmarks}
+\end{figure}
 
 \subsubsection{VPN - Pulse Secure}
 Une fois le client installé, l'utilisateur saisit ses identifiants dans la fenêtre de Pulse Secure. 
