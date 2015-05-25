@@ -6,10 +6,17 @@ Dans ce chapitre, j'explique le scénario de test pour comparer les solutions d'
 
 La première ressource à contacter est le serveur mail de l'entreprise. 
 Pour ce faire, Outlook est installé sur la machine distante. 
-Il est configuré pour se connecter à la boîte mail de \textit{it.mgmt@labotfe.be}.
+Il est configuré pour se connecter à la boîte mail de \textit{c.juckler@labotfe.be}.
+Cette boîte mail n'est accessible que depuis le réseau de l'entreprise.
 
 Les fichiers sont la deuxième ressource à accéder.
 Un disque mappé est configuré par GPO aux utilisateurs du domaine. 
+Ce disque est un lien vers le \textit{DFS Namespace} de l'entreprise, à savoir \texttt{\textbackslash\textbackslash labotfe.be \textbackslash Data}
 
 La troisième ressource est l'intranet de l'entreprise.
 Cet intranet est composé d'une seule page web, qui affiche un message de bienvenue.
+
+Le dernier test porte sur l'utilisation d'\textit{ActiveSync}.
+ActiveSync permet de synchroniser la boîte mail d'un utilisateur sur son smartphone.
+Pour ce test, on m'a prêté un smartphone Nokia Lumia 520 avec Windows Phone 8.
+

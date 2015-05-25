@@ -10,12 +10,18 @@ Cette dernière peut distribuer le software à tous les utilisateurs authentifi�
 \subsection{Schéma de l'infrastructure}
 Comme la passerelle est accessible depuis l'extérieur, elle ne possède pas le même niveau de confiance que le LAN.
 Elle est donc placée dans une DMZ.
+%\begin{figure}[ht]
+%	\centering
+%	\includegraphics[width=16cm]{juniper/schema.png}
+%	\caption{Adressage des interfaces}
+%	\label{fig:schemaJuniper}
+%\end{figure}
 
 Le firewall sert de routeur entre le réseau du labo (externe) et le réseau de test (interne).
 Il gère aussi les \textit{policies}, c'est-à-dire les règles entre les zones de sécurité établies dans la configuration.
 Dans mon réseau de test, j'ai créé deux zones en plus de celles pré-définies : la zone "Computers" et "Servers".
 
-Pour l'adressage (Fig.\ref{fig:if} p.\pageref{fig:if}), ma zone \textit{Untrust} est le labo. 
+Pour l'adressage (Fig.\ref{fig:ifJuniper} p.\pageref{fig:ifJuniper}), ma zone \textit{Untrust} est le labo. 
 L'interface associé possède l'adresse 192.168.6.185.
 Les autres zones font parties du réseau de test et possèdent une adresse dans le réseau 172.16.0.0/16.
 J'utilise les VLAN 10 et 20 pour différencier le trafic des ordinateurs et des serveurs sur le même interface.
@@ -25,7 +31,7 @@ Il est plus claire de créer des \textit{policies} entre des zones, que de crée
 	\centering
 	\includegraphics[width=16cm]{juniper/interfaces.png}
 	\caption{Adressage des interfaces}
-	\label{fig:if}
+	\label{fig:ifJuniper}
 \end{figure}
 
 Pour autoriser l'accès à la passerelle, l'utilisation d'un mappage est indispensable.
