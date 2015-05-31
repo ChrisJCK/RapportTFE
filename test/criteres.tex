@@ -1,0 +1,150 @@
+Les critères de comparaison vont permettre de classer les différentes solutions.
+Les critères sélectionnés sont de plusieurs types.
+Il y a des critères liés aux tests de connectivité, d'autres sont liés aux fonctionnalités ou aux technologies utilisées.
+
+\section{Les critères sélectionnés}
+Il existe un nombre importants de critères pour réaliser ce comparatif.
+J'ai décidé d'en choisir seize qui montrent bien les différences entre les différentes solutions sélectionnées. 
+\rowcolors{2}{lightgray}{}
+\begin{longtable}{p{4cm}|p{12cm}}
+	\toprule
+	\textbf{Critère} & \textbf{Description} \endhead
+    \hline 
+    Connexion Outlook & Test de connectivité entre le client mail Outlook et le serveur Exchange \\
+    \hline
+    Connexion Outlook Web App & Test de connectivité entre la machine cliente et la Web App du serveur Exchange. Dans ce cas, l'OWA n'est accessible que depuis le réseau interne, il faut donc que les machines distantes aient un accès au réseau interne.\\
+    \hline
+    Connexion au DFS Namespace & Test de connectivité entre la machine cliente et le DFS Namespace \\
+    \hline
+    Connexion à l'intranet & Test de connectivité entre la machine cliente et le serveur Web interne, qui héberge l'intranet \\
+    \hline
+    Type de tunnel & La connexion se fait par un tunnel VPN, mais quel type de tunnel ?. Les réponses possibles sont SSL ou ESP/IPSec.\\
+    \hline
+    Algorithme de chiffrement par défaut & Lors de la configuration, un algorithme ou un ensemble d'algorithme est sélectionné par défaut.\\
+    \hline
+    Version de SSL/TLS par défaut & Il existe plusieurs versions de ces protocoles. Le but est de savoir le(s)quelle(s) a/ont été sélectionné par défaut.\\
+    \hline
+    Algorithme de chiffrement offrant le plus de sécurité & Lors de la configuration, il est possible de sélectionner le(s) algorithme(s) souhaité(s). Ce critère met en lumière l'algorithme le plus sécurisé supporté par le système.\\
+    \hline
+    Version de SSL/TLS maximum supportée & Le but est de savoir qu'elle est la version maximale de la technologie qui est supportée par le système.\\
+    \hline
+    Facilité de configuration & Ce critère est plus personnel, mais il se base sur un code que j'explique plus tard.\\
+    \hline
+    Fallback SSL & Ce test vérifie la présence d'une option pour le passage de IPSec vers SSL en cas de problème lors de la connexion en IPSec.\\
+    \hline
+    Host Checker & Ce test signale la présence d'une méthode pour vérifier que l'hôte peut se connecter en VPN.\\
+    \hline
+    Méthode d'authentification & Ce test précise le mode d'authentification utilisé lors des tests, ainsi que les autres méthodes d'authentification supportées.\\
+    \hline
+    Split Tunneling & Signale la présence ou non de l'option. Si oui, le fonctionnement par défaut.\\
+    \hline
+    Push Mail & Ce test porte sur l'utilisation d'ActiveSync pour le push mail.\\
+    \hline
+    Prix & Le prix tient compte du prix des appareils nécessaires à la réalisation de l'infrastructure.\\
+    \bottomrule
+    \caption{Critères de comparaison}
+	\label{tab:criteres}\\
+\end{longtable}
+
+\subsection{Explication du critère "Facilité de configuration"}
+Ce critère est plus personnel, mais il se base sur les points suivants.
+J'attribue une note entre 1 et 5 sur la configuration et une note entre 1 et 5 sur l'interface graphique.
+
+Pour la configuration, la note de 5 signifie qu'elle est simple.
+C'est-à-dire que le guide d'administration suffit largement pour configurer les différents éléments à mettre en place.
+Par contre, une note de 1 signifie que la configuration n'est pas simple.
+Il faut chercher plus loin que le guide d'administration fourni, voir demander sur des forums pour trouver la bonne marche à suivre.
+
+Pour l'interface graphique, une note de 5 signifie que l'interface est intuitif. 
+Il est relativement aisé de trouver les éléments à modifier, les menus sont bien présentés.
+À l'inverse, une note de 1 montre que l'interface est mal conçue.
+
+\section{Grille de comparaison}
+Sur base des critères et des différentes architectures/solutions, j'ai dressé un tableau de comparaison de ces différentes solutions.
+
+\begin{tabular}{m{4cm}m{12cm}}
+\ok & La connexion est établie / présence de l'option \\
+\nok & La connexion n'est pas établie / option non disponible \\
+\unk & L'information n'est pas disponible \\
+N/A & Le test ne s'applique pas à cette solution \\
+\end{tabular}
+
+\begin{landscape}
+\begin{longtable}{>{\centering\columncolor{lightgray}}m{4cm}|>{\centering}m{3.3cm}|>{\centering}m{3.3cm}|>{\centering}m{3.3cm}|>{\centering}m{3.3cm}|m{3.3cm}<{\centering}}
+	\toprule
+	\textbf{Critère} & \textbf{Juniper - Portail Web} & \textbf{Juniper - Pulse Secure} & \textbf{Cisco Clientless} & \textbf{Cisco AnyConnect} & \textbf{DirectAccess} \endhead
+    \hline
+    Connexion Outlook & N/A & \ok & N/A & \ok & \ok \tabularnewline
+    \hline
+    Connexion Outlook Web App & \ok & \ok & \ok & \ok & \ok \tabularnewline
+    \hline
+    Connexion au DFS Namespace & \ok & \ok & \nok & \ok & \ok \tabularnewline
+    \hline
+    Connexion à l'intranet & \ok & \ok & \ok & \ok & \ok \tabularnewline
+    \hline
+    Type de tunnel & SSL & ESP & SSL & DTLS & IPSec \tabularnewline
+    \hline
+    Algorithme de chiffrement par défaut & 128bit et + & AES128/SHA1 & \unk & \unk & \unk \tabularnewline
+    \hline
+    Version de SSL/TLS par défaut & SSLv3 \& TLS & SSLv3 \& TLS & \unk & \unk & \unk \tabularnewline
+    \hline
+    Algorithme de chiffrement offrant le plus de sécurité & 168bit et + & AES256/SHA1 & AES256/SHA1 & AES256/SHA1 & \unk \tabularnewline
+    \hline
+    Version de SSL/TLS maximum supportée & TLSv1 & TLSv1 & TLSv1 & TLSv1 & \unk \tabularnewline
+    \hline
+    Facilité de configuration & 10 & 10 & 6 & 2 & 8 \tabularnewline
+    \hline
+    Fallback SSL & N/A & \ok (option) & N/A & \nok & N/A \tabularnewline
+    \hline
+    Host Checker & \ok & \ok & \ok & \ok & \ok \tabularnewline
+    \hline
+    Méthode d'authentification & Active Directory & Active Directory & Active Directory & Active Directory & Kerberos \tabularnewline
+    \hline
+    Split Tunneling & N/A & \ok (désactivé) & N/A & \ok (activé) & \ok (activé) \tabularnewline
+    \hline
+    Push Mail & \multicolumn{2}{c|}{\ok} & \unk & \unk & \unk \tabularnewline
+    \hline
+    Prix (en euro) & \multicolumn{2}{c|}{5400} & \multicolumn{2}{c|}{500-1000} & 4200 \tabularnewline
+    \bottomrule
+    \caption{Tableau de comparaison}
+	\label{tab:comparaison}\\
+\end{longtable}
+\end{landscape}
+\subsection{Commentaires}
+\subsubsection{Solution Juniper}
+La solution Juniper est la meilleure des solutions, vu qu'elle offre toute les fonctionnalités demandées, ainsi que l'interface graphique le plus intuitif. 
+Le guide d'administration est suffisamment complet que pour réaliser la configuration de manière autonome.
+
+La seule remarque à faire porte sur l'utilisation d'ActiveSync pour le push mail.
+Lors des tests, j'employais un utilisateur, qui est administrateur du domaine.
+Par défaut, le serveur Exchange n'autorise pas les administrateurs à utiliser ActiveSync.
+Pour éviter de modifier les paramètres de cet utilisateur, j'ai pris un utilisateur standard pour mes tests.
+
+\subsubsection{Solution Windows}
+La solution Windows DirectAccess a son intérêt, amis elle est plus limitée.
+Elle ne s'appuie que sur l'utilisation de système d'exploitation Windows.
+Elle n'est pas compatible avec les appareils de type smartphone, ce qui réduit un peu l'utilité de ce service pour accéder au mail depuis l'extérieur.
+Le critère "Host Checker" est sous-entendu valide, car DirectAccess est déployé via une GPO liée à un groupe de sécurité.
+Donc, les machines utilisant DirectAccess sont vérifiées par l'administrateur réseaux, car il a dû placer les ordinateurs concernés dans le groupe de sécurité.
+
+Il n'est pas possible de déterminer avec précisions quels sont les algorithmes de chiffrement utilisés par DirectAccess.
+Une liste des algorithmes supportés est disponible sur l'Internet.
+Un soucis constaté est que si le serveur remote est arrêté pour une raison quelconque, un ordinateur se trouvant dans le réseau interne n'a plus accès aux différentes ressources.
+
+\subsubsection{Solution Cisco}
+La solution Cisco est sans doute la moins agréable à utiliser.
+Les problèmes de version du logiciel sont pour le moins dérangeantes.
+Pour des raisons techniques, j'ai dû travailler avec la version 8.3 du logiciel.
+À la base, la version 9.3 était prévue.
+Mais l'ASA ne disposant que de \numprint[MB]{256}, il m'était impossible de désarchiver le package AnyConnect nécessaire au déploiement du client sur les machines.
+En cherchant sur le site de Cisco, la dernière version compatible avec l'ASA mis à disposition est la version 8.3.
+Malheureusement, cette version ne gère pas bien les certificats.
+J'ai donc désactivé l'authentification de l'ASA via le certificat.
+
+De plus, en passant en version 8.3, la connexion au serveur de fichier n'est plus possible.
+Avec la version 9.3, il était possible d'accèder au DFS Namespace.
+
+Par ailleurs, la solution Cisco impose l'utilisation de Java.
+Car l'ASDM et les services accessibles via le portail web se base sur Java pour fonctionner.
+
+

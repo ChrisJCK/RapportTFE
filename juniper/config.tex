@@ -1,6 +1,6 @@
 \section{Solution Juniper/Pulse}
 La solution de Juniper se base sur l'utilisation d'une passerelle SSL.
-Cette passerelle gère les connexions entrantes et attribue, aux connexions autorisées, l'accès aux ressources.
+Celle-ci gère les connexions entrantes, et attribue, aux connexions autorisées, l'accès aux ressources.
 La passerelle utilisée est une SA 2500 tournant sous Pulse Connect Secure 8.1R1.1.
 Les clients distants peuvent se connecter soit via le portail Web, soit via le client Pulse Secure.
 
@@ -9,13 +9,13 @@ Cette dernière peut distribuer le software à tous les utilisateurs authentifi�
 
 \subsection{Schéma de l'infrastructure}
 Comme la passerelle est accessible depuis l'extérieur, elle ne possède pas le même niveau de confiance que le LAN.
-Elle est donc placée dans une DMZ.
-%\begin{figure}[ht]
-%	\centering
-%	\includegraphics[width=16cm]{juniper/schema.png}
-%	\caption{Adressage des interfaces}
-%	\label{fig:schemaJuniper}
-%\end{figure}
+Elle est donc placée dans une DMZ (voir Fig.\ref{fig:schemaJuniper} p.\pageref{fig:schemaJuniper}).
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=16cm]{juniper/schema.png}
+	\caption{Schéma logique de l'infrastructure}
+	\label{fig:schemaJuniper}
+\end{figure}
 
 Le firewall sert de routeur entre le réseau du labo (externe) et le réseau de test (interne).
 Il gère aussi les \textit{policies}, c'est-à-dire les règles entre les zones de sécurité établies dans la configuration.
@@ -101,8 +101,8 @@ L'ESP se fait en encapsulant les paquets dans un paquet UDP sur un port précis.
 Mais si ce port est bloqué à un endroit entre le client et la passerelle, la connexion ESP est impossible.
 L'option de fallback peut être désactivé pour améliorer la sécurité. 
 
-Comme les utilisateurs ont un rôle assigné, on définit à chaque rôle un range d'adresse sur la passerelle pour les utilisateurs (voir Fig.\ref{fig:profilVPN} p.\pageref{fig:profilVPN}).
-Ainsi le rôle "It Tech" possède les adresses du range 172.16.64.192/27 et le rôle "All Employee" les adresses du range 172.16.64.224/27.
+Comme les utilisateurs ont un rôle assigné, on définit à chaque rôle un espace d'adressage sur la passerelle pour les utilisateurs (voir Fig.\ref{fig:profilVPN} p.\pageref{fig:profilVPN}).
+Ainsi le rôle "It Tech" possède les adresses de l'espace 172.16.64.192/27 et le rôle "All Employee" celle de l'espace 172.16.64.224/27.
 De cette manière, on peut gérer les accès au niveau du firewall de façon granulaire, c'est-à-dire en autorisant seulement certaines adresses à accéder à certaines ressources.
 \begin{figure}[ht]
 	\centering

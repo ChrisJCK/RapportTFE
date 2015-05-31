@@ -11,7 +11,22 @@
 \usepackage{chngcntr}
 \usepackage{xtab}
 \usepackage[hyphens]{url}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{lscape}
+\usepackage{booktabs}
+\usepackage{numprint}
 
+\renewcommand{\arraystretch}{1.2}
+\definecolor{lightgray}{gray}{0.9}
+\definecolor{darkgray}{gray}{0.6}
+
+%----------------------------------------------------------------------------------------
+%Commande image tableau de comparaison
+%----------------------------------------------------------------------------------------
+\newcommand{\ok}{\includegraphics[width=0.5cm]{check.png}}
+\newcommand{\nok}{\includegraphics[width=0.5cm]{nok.png}}
+\newcommand{\unk}{\includegraphics[width=0.5cm]{unknown.png}}
 
 %----------------------------------------------------------------------------------------
 %Tikz
@@ -86,4 +101,5 @@ Test
 \input{techno}
 \input{comparaison}
 \input{conclusion}
+\input{Bibliographie}
 \end{document}

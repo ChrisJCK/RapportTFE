@@ -2,17 +2,19 @@
 La solution Cisco diffère des autres solutions, car l'ASA\footnote{Adaptive Security Appliance} a des fonctions plus limitées.
 Il n'offre que deux VLAN avec la licence de base.
 
+À l'instar de la solution Juniper, cette solution offre l'accès soit via un portail web, soit via un client VPN, AnyConnect.
+
 \subsection{Schéma de l'infrastructure}
-L'ASA fait office de pare-feu et de passerelle SSL.
+L'ASA fait office de pare-feu et de passerelle SSL voir Fig.\ref{fig:schemaCisco} p.\pageref{fig:schemaCisco}.
 Comme chaque interface doit appartenir à un VLAN, l'un des VLAN est la zone \textit{outside} et l'autre est la zone \textit{inside}.
 La zone \textit{outside} fait référence au réseau du laboratoire et l'\textit{inside} est mon domaine.
-Dans ce cas-ci, les ordinateurs et les serveurs ne sont plus dans des zones distinctes (voir Fig.p.).
-%\begin{figure}[ht]
-%	\centering
-%	\includegraphics[width=16cm]{Cisco/schema.png}
-%	\caption{Adressage des interfaces}
-%	\label{fig:schemaCisco}
-%\end{figure}
+Dans ce cas-ci, les ordinateurs et les serveurs ne sont plus dans des zones distinctes (voir Fig.\ref{fig:schemaCisco} p.\pageref{fig:schemaCisco}).
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=16cm]{Cisco/schema.png}
+	\caption{Adressage des interfaces}
+	\label{fig:schemaCisco}
+\end{figure}
 Pour l'adressage, j'ai conservé le même plan sauf que mon ordinateur interne se retrouve avec une adresse 172.16.10.0/24 (voir Fig.\ref{fig:ifCisco} p.\pageref{fig:ifCisco}).
 \begin{figure}[ht]
 	\centering
@@ -46,7 +48,7 @@ En plus, il est intéressant d'associer des objets aux différents éléments de
 \end{figure}
 
 Ensuite, il faut initialiser le "Group Policy".
-Ce groupe permet l'attribution des adresses, et aussi de plein de propriétés issues des groupes par défaut, car il hérite par défaut des propriétés des ces groupes. 
+Ce groupe permet l'attribution des adresses, et aussi de plein de propriétés issues des groupes par défaut, car il hérite par défaut des propriétés de ces groupes. 
 Comme on peut le voir sur la Fig.\ref{fig:gpCisco} p.\pageref{fig:gpCisco}, mon groupe \textit{VPNAccess} hérite de deux éléments, par contre pour l'adressage, il va chercher le pool que j'ai défini. 
 \begin{figure}[ht]
 	\centering
@@ -56,11 +58,11 @@ Comme on peut le voir sur la Fig.\ref{fig:gpCisco} p.\pageref{fig:gpCisco}, mon 
 \end{figure}
 
 Finalement, il reste à configurer le profil de connexion voir Fig.\ref{fig:cpCisco} p.\pageref{fig:cpCisco}.
-Il permet de définir le mode d'authentification, et le groupe à associer aux clients.
-Particularité, il faut préciser le pool d'adresse même si il est contenu dans le groupe.
 \begin{figure}[ht]
 	\centering
 	\includegraphics{Cisco/ConnectionProfile.png}
 	\caption{Configuration du profil de connexion}
 	\label{fig:cpCisco}
 \end{figure} 
+Il permet de définir le mode d'authentification, et le groupe à associer aux clients.
+Particularité, il faut préciser le pool d'adresse même si cette information est déjà donnée dans le groupe associé.

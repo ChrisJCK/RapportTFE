@@ -5,130 +5,27 @@ La version 1.3 est en \textit{draft}.
 De la même manière que SSL, TLS a pour objectif de sécuriser les communications entre deux entités sur un réseau.
 
 \subsection{Détails du protocole}
-TLS se base sur des enregistrements pour l'échange de données.
+TLS se base sur des enregistrements pour l'échange de données, appelé "TLS Record".
 Un enregistrement est caractérisé par un champ \textit{content type}, un champ version et un champ longueur.
 
-Avant de pouvoir échanger des données applicatives, TLS réalise le \textit{TLS Handshake} dont le \textit{content type} est $22$.
-Ce \textit{handshake} fournit les paramètres de chiffrement pour l'échange de données.
+Avant de pouvoir échanger des données applicatives, TLS réalise le "TLS Handshake".
 
-En TLS, il existe le \textit{basic handshake}, qui authentifie uniquement le serveur, et le \textit{client-authenticated handshake}, qui authentifie les deux \textit{peers} (voir Fig.\ref{fig:tlshandshake} p.\pageref{fig:tlshandshake}).
+\subsubsection{TLS Record Protocol}
+Il sert à négocier une connexion sécurisée et privée entre le client et le serveur.
+Bien qu'il peut être utilisé sans chiffrement, il utiliser des clés symétriques pour s'assurer que la connexion est privée.
+La sécurisation de la connexion est garantie par l'utilisation d'une fonction de hachage.
 
-\subsubsection{Basic handshake}
-\begin{enumerate}
-\item Le client envoie un message \texttt{ClientHello}, qui contient les versions de TLS supportées, une liste des suites de chiffrement.
+\subsubsection{TLS Handshake Protocol}
+Il permet l'authentification lors du début de la communication entre le serveur et le client.
+Il utilise le même handshake que SSL, mais il fournit une authentification du serveur et, en option, du client.
 
-\item Le serveur répond par un message \texttt{ServerHello}. 
-Ce message contient la version de TLS et la suite de chiffrement à utiliser.
-Il envoie un message \texttt{Certificate} ou \texttt{ServerKeyExchange} si la suite de chiffrement l'exige.
-Et il transmet un message \texttt{ServerHelloDone} pour signaler la fin des négociations.
+\subsection{Différence entre SSL et TLS}
+Les deux protocoles sont semblables, mais ne sont pas compatibles.
+Il existe des différences entre eux.
 
-\item Le client répond avec un message \texttt{ClientKeyExchange}. Ce message contient soit un \textit{PreMasterSecret}, soit une clé publique, soit rien. 
+TLS utilise un MAC\footnote{Message Authentication Code} standardisé.
+Il n'est plus limité à MD5 ou SHA, et de part sa conception, il est capable d'utiliser n'importe quelle fonction.
 
-Le client et le serveur utilisent les éléments reçus précédemment pour générer un secret maitre. Ce secret sert à créer toutes les autres clés qui seront utilisées pour cette connexion.
-
-\item Le client envoie un enregistrement \texttt{ChangeCipherSpec} dont le \textit{content type} est $20$. 
-Cet enregistrement signale au serveur que les messages du client seront authentifiés et chiffrés à l'avenir par la suite de chiffrement définit lors du \textit{handshake}.
-
-\item Finalement, le client émet un message \texttt{Finished}. 
-Ce messages est authentifié et chiffré.
-Si le serveur n'arrive pas à vérifier ce message, il ferme la connexion.
-
-Le serveur envoie également un message \texttt{Finished}.
-
- \item Le client et le serveur peuvent s'envoyer les données applicatives en tout sécurité.
-L'enregistrement utilisé possède un \textit{content type} de $23$.
-\end{enumerate}
-\subsubsection{Client-authenticated handshake}
-Le déroulement est identique à celui du \textit{basic handshake}.
-Sauf qu'avant que le serveur envoie son \texttt{ServerHelloDone}, il demande le certificat du client via le message \texttt{CertificateRequest}.
-
-Le client répond en envoyant son certificat dans le message \texttt{Certificate}. 
-De plus, il émet un message \texttt{CertificateVerify}.
-Ce dernier est signé par le clé privée du client. 
-Le serveur vérifie cette signature en utilisant la clé publique contenu dans le certificat du client reçue auparavant.
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}
-	\draw[-,draw=none] (0,10.8) node [above] {Client} -- (0,-0.6) ;
-	\draw[-,draw=none] (6,10.8) node [above] {Serveur}-- (6,-0.6);
-	\draw[arrow] (0,10) -- (6,10) node [midway,above] {ClientHello};
-	\draw[arrow] (6,9) -- (0,9) node [midway,above] {ServerHello};
-	\draw[arrow] (6,8.4) -- (0,8.4) node [midway,above] {Certificate*};
-	\draw[arrow] (6,7.8) -- (0,7.8) node [midway,above] {ServerKeyExchange*};
-	\draw[arrow] (6,7.2) -- (0,7.2) node [midway,above] {CertificateRequest*};
-	\draw[arrow] (6,6.6) -- (0,6.6) node [midway,above] {ServerHelloDone};
-	\draw[arrow] (0,5.6) -- (6,5.6) node [midway,above] {Certificate*};
-	\draw[arrow] (0,5) -- (6,5) node [midway,above] {ClientKeyExchange};
-	\draw[arrow] (0,4.4) -- (6,4.4) node [midway,above] {CertificateVerify*};
-	\draw[arrow] (0,3.8) -- (6,3.8) node [midway,above] {[ChangeCiperSpec]};
-	\draw[arrow] (0,3.2) -- (6,3.2) node [midway,above] {Finished};
-	\draw[arrow] (6,2.2) -- (0,2.2) node [midway,above] {[ChangeCipherSpec]};
-	\draw[arrow] (6,1.6) -- (0,1.6) node [midway,above] {Finished};
-	\draw[arrow] (0,0.7) -- (6,0.7);
-	\draw[arrow] (6,0.1) -- (0,0.1) node [midway,above] {Application Data};
-	\node [text width=2.5cm] at (8,6) {* : Dépend de la suite de chiffrement};
-	\node [text width=2.5cm] at (8,4) {[...] : hors \textit{handshake}};
-\end{tikzpicture}
-\caption{\'Echange pour un \textit{handshake} TLS}
-\label{fig:tlshandshake}
-\end{figure}
-
-\subsubsection{L'ID de session}
-Le message \texttt{ServerHello} contient un id de session. 
-Cet id est lié aux paramètres de chiffrement dont le secret maitre. 
-Il est surtout utiliser lors d'une reconnexion pour éviter toute la procédure du \textit{handshake}.
-Cette dernière peut être lourde en terme de ressources pour le serveur. 
-
-Un schéma est disponible voir Fig.\ref{fig:tlsSessionID} p.\pageref{fig:tlsSessionID}.
-
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}
-	\draw[-,draw=none] (0,6.6) node [above] {Client} -- (0,0) ;
-	\draw[-,draw=none] (6,6.6) node [above] {Serveur}-- (6,0);
-	\draw[arrow] (0,6) -- (6,6) node [midway,above] {ClientHello};
-	\draw[arrow] (6,5) -- (0,5) node [midway,above] {ServerHello};
-	\draw[arrow] (6,4.4) -- (0,4.4) node [midway,above] {[ChangeCiperSpec]};
-	\draw[arrow] (6,3.8) -- (0,3.8) node [midway,above] {Finished};
-	\draw[arrow] (0,2.8) -- (6,2.8) node [midway,above] {[ChangeCipherSpec]};
-	\draw[arrow] (0,2.2) -- (6,2.2) node [midway,above] {Handshake : Finished};
-	\draw[arrow] (0,1.2) -- (6,1.2);
-	\draw[arrow] (6,0.6) -- (0,0.6) node [midway,above] {Application Data};
-\end{tikzpicture}
-\caption{\'Echange pour un \textit{handshake} TLS avec un ID de session}
-\label{fig:tlsSessionID}
-\end{figure}
-\subsubsection{Le ticket de session}
-Le ticket de session permet à des serveurs de remettre en état une session SSL sans que l'état de la session soit enregistré sur le serveur.
-Le ticket est transmis au client du façon sécurisé. 
-Ce dernier va le retransmettre au serveur lorsqu'il se reconnectera au serveur.
-
-Un schéma de l'échange est disponible à la Fig.\ref{fig:tlsSessionTicket} p.\pageref{fig:tlsSessionTicket}.
-
-Le client prévient le serveur qu'il supporte ce système en ajoutant dans le \texttt{ClientHello} une extension \texttt{SessionTicket SSL}.
-
-Le serveur stocke dans un ticket les informations sur la session (suite de chiffrement et le secret maitre).
-Le ticket est chiffré par une clé connue uniquement du serveur.
-Il est ensuite transmis au client en utilisant le message \texttt{NewSessionTicket}. 
-Le message est envoyé avant que le serveur envoie son \texttt{ChangeCipherSpec} et après que le serveur ait vérifié l'authenticité du client.
-
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}
-	\draw[-,draw=none] (0,8.8) node [above] {Client} -- (0,0) ;
-	\draw[-,draw=none] (6,8.8) node [above] {Serveur}-- (6,0);
-	\draw[arrow, draw=none] (0,7.8) -- (6,7.8) node [midway,above] {ClientHello};
-	\draw[arrow] (0,7.2) -- (6,7.2) node [midway,above] {(SessionTicket extension)};
-	\draw[arrow, draw=none] (6,6.2) -- (0,6.2) node [midway,above] {ServerHello};
-	\draw[arrow] (6,5.6) -- (0,5.6) node [midway,above] {(empty SessionTicket extension)};
-	\draw[arrow] (6,5) -- (0,5) node [midway,above] {NewSessionTicket};
-	\draw[arrow] (6,4.4) -- (0,4.4) node [midway,above] {[ChangeCiperSpec]};
-	\draw[arrow] (6,3.8) -- (0,3.8) node [midway,above] {Finished};
-	\draw[arrow] (0,2.8) -- (6,2.8) node [midway,above] {[ChangeCipherSpec]};
-	\draw[arrow] (0,2.2) -- (6,2.2) node [midway,above] {Handshake : Finished};
-	\draw[arrow] (0,1.2) -- (6,1.2);
-	\draw[arrow] (6,0.6) -- (0,0.6) node [midway,above] {Application Data};
-\end{tikzpicture}
-\caption{\'Echange pour un \textit{handshake} TLS avec un ticket de session}
-\label{fig:tlsSessionTicket}
-\end{figure}
+Ils supportent des suites de chiffrements différentes.
+SSL supporte RSA, Diffie-Hellman et Fortezza.
+TLS ne supporte pas Fortezza, mais il est possible d'ajouter de nouvelle suite de chiffrement au futur version du protocole.

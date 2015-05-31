@@ -6,4 +6,10 @@ Elle est capable de transporter une grande partie des protocoles existants, comm
 Elle labélise les paquets pour le routeur. 
 Le label permet de trouver le plus court chemin.
 
-MPLS est une technologie des providers. 
+Lors de son entrée dans un réseau MPLS, le routeur ajoute au paquet un label.
+Ce dernier est conservé tout au long du transit dans le réseau MPLS.
+Il est ajouté après l'en-tête Ethernet (couche 2) et avant l'en-tête IP (couche 3).
+Le dernier routeur du réseau enlèvera le label.
+
+Le routage se fait sur base des labels.
+Ainsi, chaque routeur du réseau MPLS possède une table de commutation permettant de traiter les paquets.

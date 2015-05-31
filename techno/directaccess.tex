@@ -7,8 +7,11 @@ DirectAccess est une solution VPN sans client.
 Elle autorise un utilisateur à se connecter aux ressources de sa société.
 La connexion se fait automatiquement dès que les policies sont vérifiées et que la machine dispose d'une connexion à Internet.
 
-Le service se base sur l'utilisation d'IPSec, mais aussi sur l'implémentation de IP-HTTPS.
+Le service se base sur l'utilisation d'IPSec, mais aussi sur une implémentation de IP-HTTPS.
 IP-HTTPS encapsule des paquets IPv6 dans des paquets Https. 
+
+L'utilisation de DirectAccess impose l'utilisation d'adresse IPv6.
+Mais si le réseau n'utilise pas IPv6, les tunnels sont montés en utilisant des protocoles de transition IPv6 vers IPv4, comme 6to4, Teredo ou IP-HTTPS.
 
 \subsection{Pré-requis}
 DirectAccess est un produit Microsoft et ne fonctionne qu'avec du matériel Windows.
