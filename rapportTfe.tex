@@ -16,10 +16,13 @@
 \usepackage{lscape}
 \usepackage{booktabs}
 \usepackage{numprint}
+\usepackage{tocloft}
+\usepackage[official]{eurosym}
 
 \renewcommand{\arraystretch}{1.2}
 \definecolor{lightgray}{gray}{0.9}
 \definecolor{darkgray}{gray}{0.6}
+\renewcommand{\cftfignumwidth}{2cm}
 
 %----------------------------------------------------------------------------------------
 %Commande image tableau de comparaison
@@ -85,9 +88,7 @@
 
 \begin{document}
 \input{cover}
-\begin{abstract}
-Test
-\end{abstract}
+\input{remerciement}
 \tableofcontents
 \listoftables
 \addcontentsline{toc}{chapter}{Liste des tableaux}
@@ -101,5 +102,5 @@ Test
 \input{techno}
 \input{comparaison}
 \input{conclusion}
-\input{Bibliographie}
+\input{biblio}
 \end{document}

@@ -1,5 +1,5 @@
 \section{Internet Protocol Security - IPSec}
-IPsec est un ensemble de protocole visant à sécuriser les données au niveau de la couche réseau (voir Fig.). 
+IPsec est un ensemble de protocole visant à sécuriser les données au niveau de la couche réseau. 
 Il est composé de trois protocoles : AH (\textit{Authentication Header}), ESP (\textit{Encapsulating Security Payload}) et IKE (\textit{Internet Key Exchange}).
 IKE est utilisé lors de la négociation des paramètres du tunnel VPN. 
 Les deux autres protocoles fournissent la sécurité des données en les encapsulant au sein du tunnel VPN. 
@@ -28,18 +28,13 @@ Le mode tunnel est préféré lorsque l'un ou les deux hôtes de la communicatio
 
 \subsection{IPSec et le NAT}
 Comme vu précédemment (Fig.\ref{fig:ipsecHead} p.\pageref{fig:ipsecHead}), IPSec protège les en-têtes des paquets IP.
-Cette opération rend inutilisable IPSec derrière un NAT, ce qui diminue l'utilité du protocole.
-Pour palier à ce problème, une solution est d'encapsuler les paquets IPSec dans un autre paquet.
+Pour le protocole AH, le moindre changement au niveau des adresses IP provoque une erreur dans l'IVC vu que l'authentification s'applique au paquet entier.
+Pour le protocole ESP, l'en-tête ESP est un paquet de la couche réseau. Il ne possède pas d'information sur les ports, qui sont des éléments de la couche transport.
+Il n'est pas possible d'associer un port unique pour cette communication.
+
+Pour palier à ces problèmes, une solution est d'encapsuler les paquets IPSec dans un autre paquet.
 Ainsi le NAT-T (NAT-Traversal) encapsule les paquets IPSec dans un paquet UDP avec le port 4500 (par défaut).
-
-AH ne passe pas les passerelles. 
-Car le moindre changement au niveau des adresses IP provoque une erreur dans l'IVC vu que l'authentification s'applique au paquet entier.
-
-Pour ESP, la situation est différente. 
-Le problème se situe au niveau de l'en-tête ESP, qui est un paquet de la couche réseau.
-Il ne possède pas d'information sur les ports, qui sont des éléments de la couche transport.
-Le PAT ne peut pas attribuer de port unique à ce paquet.
-Donc l'hôte n'est pas identifiable pour les réponses.
+Ainsi, c'est l'en-tête UDP qui sera modifier lors du transfert entre les deux hôtes et le paquet IPSec ne sera pas modifié.
 
 \subsection{Security association}
 Quand nous parlons de monter un tunnel, en réalité, nous synchronisons un état partagé entre les terminaisons du tunnel. 
@@ -48,7 +43,7 @@ Une SA contient l'algorithme de chiffrement utilisé et les clés utilisées, l'
 Plus d'autres paramètres qui servent à maintenir les tunnels VPN. 
 Les SA peuvent être créées manuellement ou gérées par l'IKE. 
 Chaque terminaison possède deux SA, une pour le trafic entrant et une pour le trafic sortant. 
-De plus, chaque pair est lié à un protocole. 
+De plus, chaque paire est liée à un protocole. 
 Les SA se caractérisent par un triplet formé du SPI, de l'adresse de destination et du protocole. 
 Les SA sont stockées dans une SAD (\textit{security association database}). 
 Cette SAD est utilisée pour déterminer quel protocole est utilisé pour les paquets sortants et pour fournir les paramètres pour déchiffrer et/ou authentifier les paquets entrants. 
@@ -66,7 +61,7 @@ Ces policies se basent sur les champs suivants des en-têtes du paquet.
 \end{itemize}
 Elles servent à déterminer quels paquets à émettre sur quel tunnel, à dropper les paquets ne correspondant à aucune des règles décrites dans les policies. 
 De la même manière que les SA, les policies sont stockées dans une SPD (\textit{security policy database}). 
-Le fonctionnement est similaire, pour chaque paquet entrant ou sortant, le système consulte la SPD pour déterminer les règles à appliquer au paquet. Si une règle est trouvé, le système cherche après la SA correspondante.
+Le fonctionnement est similaire, pour chaque paquet entrant ou sortant, le système consulte la SPD pour déterminer les règles à appliquer au paquet. Si une règle est trouvée, le système cherche après la SA correspondante.
 
 \subsection{Le protocole IKE}
 IKE a un seul objectif : procéder à des échanges de clé Diffie-Hellman pour sécuriser un tunnel VPN. 
@@ -75,11 +70,13 @@ Il négocie le chiffrement, l'authentification nécessaire au tunnel, qui satisf
 IKE dérive du \textit{Internet Security Association and Key Management} Protocol (ISAKMP). 
 ISAKMP est un framework qui fournit des outils pour la sécurisation des échanges et l'échange de clé. 
 De plus, IKE utilise différents mode du protocole OAKLEY.
-Il établit une SA en deux phases et il possède cinq modes d'échange, dont trois découlent ISAKMP.
+Il établit une SA en deux phases et il possède cinq modes d'échange, dont trois découlent d'ISAKMP.
 Les deux derniers modes ne sont utilisés que lors de la phase deux.
 
 \subsubsection{La phase 1 d'IKE}
-La phase 1 crée un canal sécurisé entre les terminaux du tunnel pour déterminer les SA. Le canal sécurisé est créé après l'authentification des terminaux. Les SA de la phase 1 sont bidirectionnelles, c'est-à-dire qu'une SA sécurise le trafic entrant et sortant. 
+La phase 1 crée un canal sécurisé entre les terminaux du tunnel pour déterminer les SA. 
+Le canal sécurisé est créé après l'authentification des terminaux. 
+Les SA de la phase 1 sont bidirectionnelles, c'est-à-dire qu'une SA sécurise le trafic entrant et sortant. 
 Pour l'échange des SA de la phase 1, IKE possède deux modes d'échanges : 
 \begin{itemize}
 	\item Main mode
@@ -155,13 +152,13 @@ Ils forment dans la terminologie Kerberos un centre de distribution de ticket ou
 De plus, Kerberos utilise des clés chiffrées pour toutes les communications.
 
 \paragraph{Certificat}
-Un certificat n'est rien de plus qu'une clé publique accompagné d'un identifiant dont l'ensemble des informations est signé par un tiers de confiance.
+Un certificat n'est rien de plus qu'une clé publique accompagnée d'un identifiant dont l'ensemble des informations sont signées par un tiers de confiance.
 Ce tiers est ce que l'on appelle une autorité certificative (CA). 
 Elle est reconnue au niveau mondiale.
 Un utilisateur envoie sa clé publique au CA et reçoit en retour, après vérification, son certificat signé par la CA.
 
 \paragraph{PKI}
-Une PKI est un ensemble de composants informatiques, humains et techniques dont le but est de gérer la distribution et la vie des certificats.
+Une PKI est un ensemble de composants et de processus informatiques, humains et techniques dont le but est de gérer la distribution et la vie des certificats.
 
 \subsubsection{La phase 2 d'IKE}
 Une fois la SA établie, les terminaux peuvent l'utiliser pour négocier les SA de phase 2. 

@@ -1,43 +1,41 @@
-Dans ce chapitre, je réalise un comparatif théorique des technologies décrites dans le chapitre précédent.
-Je précise, dans un premier temps, les critères de comparaison.
-Puis, je présente le tableau.
-Finalement, je réalise une analyse de ce tableau.
+Ce chapitre a pour objectif d'établir un comparatif théorique des technologies décrites précédemment. 
+Ce comparatif se base sur des critères de facilité, de fonctionnalité et de sécurité.
 \section{Les critères de comparaison}
 Tous les protocoles décrits dans le chapitre \ref{ch:dscrp} visent un même but, mais en ayant des implémentations différentes.
 Pour pouvoir les différencier, il est utile de réaliser un comparatif sur des critères pertinents.
-Les critères que j'ai sélectionné sont : 
+Les critères sélectionnés sont : 
 \begin{itemize}
 	\item La facilité de configuration
 	\item Le type de VPN
-	\item La couche de protection
 	\item L'intégrité des données
 	\item L'authentification
 	\item Le chiffrement
 \end{itemize}
 D'un point de vue purement technique, la facilité de configuration précise le degré de complexité pour mettre en place un tunnel VPN en utilisant une technologie.
+Une note entre 1 et 5 est attribuée, 1 désignant que la configuration est difficile et 5 qu'elle est facile.
+Le type de VPN précise si c'est un tunnel pour du Remote Access, du site à site, ou les deux.
+Les trois derniers critères vérifient la présence ou non de la fonctionnalité.
 
 \section{Tableau de comparaison}
 \begin{center}
-\bottomcaption{Tableau de comparaison théorique des technologies d'accès à distance}
-\label{tab:techno}
-\tablehead{\hline Protocoles & Facilité de configuration\\}
-\begin{xtabular}{|c|c|}
+\begin{longtable}{|m{2cm}|m{2cm}|m{2cm}|m{3cm}|m{3cm}|m{2cm}|}
+\toprule 
+Protocoles & Facilité de configuration & Type de VPN & Intégrité des données & Authentification & Chiffrement\\
 \hline
- IPSec (AH, tunnel) & ++\\
+ HTTPS & 2 & Remote & \ok & \ok & \ok \\
  \hline
- IPSec (ESP, tunnel) & ++ \\
+ IPSec (ESP, tunnel) & 4 & les deux & \ok & \ok & \ok \\
  \hline
- IPSec (AH, transport) & +++ \\
+ SSH & 5 & Remote & \ok & \ok & \ok \\
  \hline
- IPSec (ESP, transport) & +++ \\
+ SSTP & 4 & Remote & \ok & \ok & \ok \\
  \hline
- SSL/TLS & ++++\\
- \hline
- SSH & ++++ \\
- \hline
- SSTP & ++++ \\
- \hline
- HTTPS & +++++ \\
- \hline
-\end{xtabular}
+ PPTP/L2TP & 5 & Remote & \nok & \ok & \nok \\
+ \bottomrule
+ \caption{Tableau de comparaison théorique des technologies d'accès à distance}
+ \label{tab:techno}\\
+\end{longtable}
 \end{center}
+PPTP et L2TP ne fournissent pas de chiffrement, ni de vérification de données de par leur conception.
+Mais ils utilisent un autre protocole pour combler ces lacunes.
+Ainsi les tunnels L2TP sont souvent associés à IPSec pour garantir l'intégrité et le chiffrement des données.

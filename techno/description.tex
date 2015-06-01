@@ -1,7 +1,23 @@
-Dans ce chapitre, je présente les technologies d'accès distants.
-Ces technologies sont bien connues, mais les implémentations des ces dernières par les différents acteurs varient de l'une à l'autre.
+Ce chapitre explique la théorie des protocoles concernés par les VPN.
+Ces technologies sont bien connues, mais les implémentations des ces dernières par les différents acteurs varient.
 Pour commencer, il me semble utile de définir les termes VPN et tunnel VPN.
 Par la suite, il est question d'expliquer et de détailler l'ensemble des protocoles liés à la sécurité des données.
+
+IPSec est le protocole, le plus utilisé, lorsqu'il s'agit de créer des tunnels VPN entre des sites distants. 
+Bien qu'il soit possible de l'utiliser pour créer des "tunnels VPN remote", il est peu recommandé dans ce cas, dû à sa conception, qui l'empêche de traverser les firewalls et les NAT.
+
+SSL/TLS sont à la base conçues pour protéger les transactions entre un serveur et un client.
+
+SSH est un protocole sécurisé visant à remplacer Telnet. 
+Il est également possible de créer des tunnels VPN avec SSH. 
+Même s'ils sont simples à mettre en place, ils sont très peu utilisés.
+
+SSTP sert à encapsuler des paquets PPP/L2TP à travers une connexion sécurisée en SSL3.
+
+HTTPS est le protocole sécurisée de HTTP par SSL/TLS.
+
+DirectAccess n'est pas un protocole à proprement parler, c'est un rôle à installer sur un serveur Windows 2012 R2.
+Il permet de connecter un ordinateur au réseau de son entreprise depuis n'importe quel lieux.
 
 \input{techno/vpn}
 \input{techno/ipsec}
@@ -15,8 +31,11 @@ Par la suite, il est question d'expliquer et de détailler l'ensemble des protoc
 
 \section{Fournisseurs d'accès}
 Au début, les VPN reposaient sur les réseaux des fournisseurs d'accès.
-Les sociétés devaient louées des lignes auprès de ces derniers. 
+Les sociétés devaient louer des lignes auprès de ces derniers. 
 Ces lignes reliaient directement les sites entre eux.
+
+Il est toujours possible d'utiliser les technologies suivantes pour créer des VPN site-à-site, mais l'utilisation de l'Internet permet une plus grande liberté.
+Le coût des ces solutions est relativement élevé par rapport à des IP VPN.
 \input{techno/atm}
 \input{techno/frameRelay}
 \input{techno/mpls}

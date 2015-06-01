@@ -1,6 +1,6 @@
 \section{Solution Cisco/AnyConnect}
 La solution Cisco diffère des autres solutions, car l'ASA\footnote{Adaptive Security Appliance} a des fonctions plus limitées.
-Il n'offre que deux VLAN avec la licence de base.
+Il n'offre que trois VLAN avec la licence de base, dont le troisième ne peut communiquer que dans un seul sens.
 
 À l'instar de la solution Juniper, cette solution offre l'accès soit via un portail web, soit via un client VPN, AnyConnect.
 
@@ -26,6 +26,8 @@ Pour l'adressage, j'ai conservé le même plan sauf que mon ordinateur interne s
 \subsection{Configuration de l'ASA}
 Toute la gestion des connexions et des règles de pare-feu se fait via le même interface graphique, à savoir l'ASDM\footnote{Adaptive Security Device Manager}.
 L'ASDM est à installer sur une machine cliente, qui possède Java.
+
+Il est également possible de gérer l'ASA en ligne de commande, mais cette pratique n'est pas recommandée à moins de connaître toutes les commandes existantes.
 
 \subsubsection{Gestion des accès}
 L'authentification est vérifiée par l'Active Directory. 

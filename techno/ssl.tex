@@ -1,5 +1,5 @@
 \section{Secure sockets layer - SSL}
-Netscape a lancé SSL 1 en 1994, dans le but de sécuriser des transactions réalisées avec leur navigateur. 
+Netscape a lancé SSL 1 en 1994 dans le but de sécuriser des transactions réalisées avec leur navigateur. 
 Dans la même année, SSL 2 était déjà en route. 
 Mais le protocole montrait déjà des vulnérabilités.
 Fin 1995, SSL 3 était lancé. 
@@ -8,7 +8,7 @@ Bien que les machines actuelles intègrent SSL 3, elles essaient d'abord de nég
 
 SSL utilise des suites de chiffrement. 
 Ces suites se composent de trois fonctions de chiffrement : la méthode d'échange de clé, l'algorithme de chiffrement et une méthode de hachage. 
-Il existe un large ensemble de suite, les clients envoient la liste des suites qu'ils savent gerer au serveur. 
+Il existe un large ensemble de suite, les clients envoient la liste des suites qu'ils savent gérer au serveur. 
 Ce dernier choisit, dans la liste, une suite qu'il implémente. 
 
 OpenSSL est l'implémentation la plus courante de SSL. 
@@ -76,13 +76,13 @@ SSL3 a une version majeure de 3 et une version mineure de 0, et TLS a un version
 Le serveur répond par trois messages.
 \begin{enumerate}
 	\item Le message \textit{ServerHello} indique au client la suite de chiffrement et l'algorithme de compression à utiliser. Il complète aussi le champ "Session ID". 
-	\item Le certificat du serveur permet au client de vérifier l'identité du serveur et contient la clé publique du serveur. Cette clé va servir à générer les différents clés pour la session.
+	\item Le certificat du serveur permet au client de vérifier l'identité du serveur, la validité du certificat et l'émetteur du certificat. Il contient la clé publique du serveur. Cette clé va servir à générer les différents clés pour la session.
 	\item Le message \textit{ServerHelloDone} précise la fin de la séquence \textit{Hello}.
 \end{enumerate}
 Suite à ces trois messages, le client donne au serveur des inputs pour la génération des clés (\textit{ClientKeyExchange}).
 Les messages \textit{ChangeCipherSpec} signalent que la connexion est passée de l'état non-sécurisé à l'état sécurisé. 
 Les messages \textit{Finished} préviennent de la fin du handshake.
  
-Le client et le serveur sont capables de s'échanger des données de façon sécurisé. 
+Le client et le serveur sont capables de s'échanger des données de manière sécurisée. 
 
 Finalement, la session est clôturée.

@@ -8,7 +8,7 @@ Mais en utilisant l'Internet, les données privées deviennent accessibles à to
 Il a donc été nécessaire de fournir des protocoles permettant d'assurer la confidentialité et l'intégrité des données à travers le réseau public. 
 
 Un tunnel VPN est monté soit entre deux passerelles VPN soit entre deux hôtes soit entre une passerelle VPN et un hôte. 
-Les deux équipements sont d'un point de vue logique connectées directement l'une à l'autre. 
+Les deux équipements sont d'un point de vue logique connectées directement l'un à l'autre. 
 Le tunnel permet d'envoyer des données du réseau privé à travers le réseau public.
 Il encapsule les données dans un protocole compris par les deux extrémités. 
 L'émetteur encapsule les données et le destinataire récupère les données. 
@@ -36,14 +36,14 @@ Avant de créer le tunnel, ces protocoles se mettent d'accord sur des paramètre
 Une fois les paramètres acceptés par les deux extrémités, le tunnel est monté.
 Les données sont envoyées via ce tunnel entre les deux extrémités.
 Il est possible de transmettre des données issues de protocole non-routable à travers le réseau public. 
-Les données sont encapsulés dans un autre protocole qui est routable.
+Les données sont encapsulées dans un autre protocole qui est routable.
 
 Par exemple, le protocole AppleTalk n'est pas supporté par l'Internet, mais grâce au tunnel, nous encapsulons le paquet AppleTalk dans un paquet IP. 
 Ce paquet est envoyé sur l'Internet qui va le transmettre au destinataire.
 Ce dernier désencapsule le paquet IP et récupère le paquet AppleTalk. 
 
 Il est nécessaire que les deux extrémités du tunnel comprennent le protocole encapsulé.
-Sinon, la destination ne saura pas capable de traiter le paquet encapsulé. 
+Sinon, la destination ne sera pas capable de traiter le paquet encapsulé. 
 
 \subsubsection{Point-to-Point Tunneling Protocol - PPTP}
 C'est un protocole propriétaire de Microsoft.

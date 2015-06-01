@@ -1,22 +1,30 @@
 \section{Scénario de test}
-Le but de ce travail est de tester les accès distants aux ressources d'une entreprise.
-Dans les points précédents, j'ai décrit l'ensemble des ressources et des méthodes d'accès.
+Le but de ce travail est de tester les accès distants aux ressources d'une entreprise de type PME.
+Le type de VPN à tester est celui de type Remote, vu que c'est celui le plus utilisé par les employés d'une société.
+Précisons tout de même, que mon infrastructure est à petite échelle, mais qu'elle reflète l'infrastructure générale d'une entreprise.
+Donc mes tests peuvent être portés à plus grande échelle.
 
-Dans ce chapitre, j'explique le scénario de test pour comparer les solutions d'accès sur des points similaires.
+Ce chapitre présente le scénario de test pour comparer les solutions d'accès sur des points similaires.
 
 La première ressource à contacter est le serveur mail de l'entreprise. 
 Pour ce faire, Outlook est installé sur la machine distante. 
 Il est configuré pour se connecter à la boîte mail de \textit{c.juckler@labotfe.be}.
+L'utilisateur Christian Juckler est membre du groupe "Employee", et il ne possède pas de droits d'administration.
 Cette boîte mail n'est accessible que depuis le réseau de l'entreprise.
+Pour vérifier que le client mail est bien connecté au serveur Exchange, il suffit d'ouvrir la fenêtre du statut de connexion de Outlook, et de vérifier que la connexion a le statut "Established".
 
 Les fichiers sont la deuxième ressource à accéder.
 Un disque mappé est configuré par GPO aux utilisateurs du domaine. 
-Ce disque est un lien vers le \textit{DFS Namespace} de l'entreprise, à savoir \texttt{\textbackslash\textbackslash labotfe.be \textbackslash Data}
+Ce disque est un lien vers le \textit{DFS Namespace} de l'entreprise, à savoir \texttt{\textbackslash\textbackslash labotfe.be \textbackslash Data}.
+La vérification s'effectue en parcourant les dossiers.
+L'utilisateur Christian Juckler n'a accès qu'à deux des trois dossiers présents sur le partage.
+Le troisième dossier est réservé au groupe "ItStaff".
+Le test permet de vérifier aussi que les utilisateurs ont accès uniquement aux dossiers dont l'accès est garanti.
 
 La troisième ressource est l'intranet de l'entreprise.
 Cet intranet est composé d'une seule page web, qui affiche un message de bienvenue.
+La vérification se fait en ouvrant un navigateur web et en allant sur le site \url{http://intranet.labotfe.be}.
 
 Le dernier test porte sur l'utilisation d'\textit{ActiveSync}.
 ActiveSync permet de synchroniser la boîte mail d'un utilisateur sur son smartphone.
 Pour ce test, on m'a prêté un smartphone Nokia Lumia 520 avec Windows Phone 8.
-

@@ -5,6 +5,12 @@ Il y a des critères liés aux tests de connectivité, d'autres sont liés aux f
 \section{Les critères sélectionnés}
 Il existe un nombre importants de critères pour réaliser ce comparatif.
 J'ai décidé d'en choisir seize qui montrent bien les différences entre les différentes solutions sélectionnées. 
+Mes choix se sont portés sur d'une part des tests de connectivité, vu que l'un des objectifs essentiels des VPNs est l'accès aux ressources.
+D'autre part, ils portent sur les suites de chiffrement et les protocoles supportés.
+Un autre objectif des VPN est la sécurisation des données. 
+De plus, un critère plus personnel sur l'utilisation des systèmes est intéressante.
+Car n'ayant aucune expérience avec ce genre de systèmes, j'ai dû apprendre à les utiliser.
+Finalement, un critère financier est important à signaler.
 \rowcolors{2}{lightgray}{}
 \begin{longtable}{p{4cm}|p{12cm}}
 	\toprule
@@ -55,7 +61,7 @@ C'est-à-dire que le guide d'administration suffit largement pour configurer les
 Par contre, une note de 1 signifie que la configuration n'est pas simple.
 Il faut chercher plus loin que le guide d'administration fourni, voir demander sur des forums pour trouver la bonne marche à suivre.
 
-Pour l'interface graphique, une note de 5 signifie que l'interface est intuitif. 
+Pour l'interface graphique, une note de 5 signifie que l'interface est intuitive. 
 Il est relativement aisé de trouver les éléments à modifier, les menus sont bien présentés.
 À l'inverse, une note de 1 montre que l'interface est mal conçue.
 
@@ -84,11 +90,11 @@ N/A & Le test ne s'applique pas à cette solution \\
     \hline
     Type de tunnel & SSL & ESP & SSL & DTLS & IPSec \tabularnewline
     \hline
-    Algorithme de chiffrement par défaut & 128bit et + & AES128/SHA1 & \unk & \unk & \unk \tabularnewline
+    Algorithme de chiffrement par défaut & 128bit et + & AES128/SHA1 & AES256-128-RC4-3DES/SHA1 & RSA-AES128/SHA1 & AES-CBC-128/SHA-256 \tabularnewline
     \hline
-    Version de SSL/TLS par défaut & SSLv3 \& TLS & SSLv3 \& TLS & \unk & \unk & \unk \tabularnewline
+    Version de SSL/TLS par défaut & SSLv3 \& TLS & SSLv3 \& TLS & SSLv2, SSLv3 et TLSv1 & SSLv2, SSLv3 et TLSv1 & \unk \tabularnewline
     \hline
-    Algorithme de chiffrement offrant le plus de sécurité & 168bit et + & AES256/SHA1 & AES256/SHA1 & AES256/SHA1 & \unk \tabularnewline
+    Algorithme de chiffrement offrant le plus de sécurité & 168bit et + & AES256/SHA1 & AES256/SHA1 & AES256/SHA1 & TLS-ECDHE-RSA-AES256-CBC-SHA384 \tabularnewline
     \hline
     Version de SSL/TLS maximum supportée & TLSv1 & TLSv1 & TLSv1 & TLSv1 & \unk \tabularnewline
     \hline
@@ -102,7 +108,7 @@ N/A & Le test ne s'applique pas à cette solution \\
     \hline
     Split Tunneling & N/A & \ok (désactivé) & N/A & \ok (activé) & \ok (activé) \tabularnewline
     \hline
-    Push Mail & \multicolumn{2}{c|}{\ok} & \unk & \unk & \unk \tabularnewline
+    Push Mail & \multicolumn{2}{c|}{\ok} & \unk & \unk & N/A \tabularnewline
     \hline
     Prix (en euro) & \multicolumn{2}{c|}{5400} & \multicolumn{2}{c|}{500-1000} & 4200 \tabularnewline
     \bottomrule
@@ -112,7 +118,7 @@ N/A & Le test ne s'applique pas à cette solution \\
 \end{landscape}
 \subsection{Commentaires}
 \subsubsection{Solution Juniper}
-La solution Juniper est la meilleure des solutions, vu qu'elle offre toute les fonctionnalités demandées, ainsi que l'interface graphique le plus intuitif. 
+La solution Juniper est la meilleure des solutions, vu qu'elle offre toute les fonctionnalités demandées, ainsi qu'une interface graphique intuitive. 
 Le guide d'administration est suffisamment complet que pour réaliser la configuration de manière autonome.
 
 La seule remarque à faire porte sur l'utilisation d'ActiveSync pour le push mail.
@@ -121,15 +127,17 @@ Par défaut, le serveur Exchange n'autorise pas les administrateurs à utiliser 
 Pour éviter de modifier les paramètres de cet utilisateur, j'ai pris un utilisateur standard pour mes tests.
 
 \subsubsection{Solution Windows}
-La solution Windows DirectAccess a son intérêt, amis elle est plus limitée.
+La solution Windows DirectAccess a son intérêt, mais elle est plus limitée.
 Elle ne s'appuie que sur l'utilisation de système d'exploitation Windows.
 Elle n'est pas compatible avec les appareils de type smartphone, ce qui réduit un peu l'utilité de ce service pour accéder au mail depuis l'extérieur.
 Le critère "Host Checker" est sous-entendu valide, car DirectAccess est déployé via une GPO liée à un groupe de sécurité.
 Donc, les machines utilisant DirectAccess sont vérifiées par l'administrateur réseaux, car il a dû placer les ordinateurs concernés dans le groupe de sécurité.
 
 Il n'est pas possible de déterminer avec précisions quels sont les algorithmes de chiffrement utilisés par DirectAccess.
-Une liste des algorithmes supportés est disponible sur l'Internet.
-Un soucis constaté est que si le serveur remote est arrêté pour une raison quelconque, un ordinateur se trouvant dans le réseau interne n'a plus accès aux différentes ressources.
+Une liste des algorithmes supportés est disponible sur l'Internet\footnote{\url{http://directaccess.richardhicks.com/2014/09/23/directaccess-ip-https-ssl-and-tls-insecure-cipher-suites/}}.
+Sur cette liste, on remarque que des algorithmes sans chiffrement sont utilisables.
+Néanmoins, ces algorithmes sont utilisés par IP-HTTPS.
+Les paquets entre le client et le serveur sont chiffrés par IPSec, il n'est donc pas utile de chiffrer une deuxième fois les paquets.
 
 \subsubsection{Solution Cisco}
 La solution Cisco est sans doute la moins agréable à utiliser.
@@ -146,5 +154,18 @@ Avec la version 9.3, il était possible d'accèder au DFS Namespace.
 
 Par ailleurs, la solution Cisco impose l'utilisation de Java.
 Car l'ASDM et les services accessibles via le portail web se base sur Java pour fonctionner.
+
+\subsection{Les prix des solutions}
+Les trois solutions décrites ont des prix largement différents, car les techniques de ventes varient d'un fabricant à l'autre.
+
+La solution Juniper est la plus chère avec un prix minimum de \euro{5400}.
+Ce prix comprend la passerelle, plus une licence pour dix utilisateurs et le support de trois ans.
+
+La solution Cisco est la moins chère avec un prix entre \euro{500} et \euro{1000}.
+Le prix communiqué comprend le firewall avec la licence de base.
+
+La solution Windows est entre les deux.
+Son prix est plus variable selon le serveur choisi, mais la licence Windows Server coûte à elle seul \euro{1200}.
+Un serveur de puissance correcte coûte dans les \euro{3000}.
 
 

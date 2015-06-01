@@ -4,30 +4,30 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {I}{\ignorespaces Format des paquets IPSec}}{10}
-\contentsline {figure}{\numberline {II}{\ignorespaces IPsec : mode "main"}}{11}
+\contentsline {figure}{\numberline {II}{\ignorespaces IPsec : mode "main"}}{12}
 \contentsline {figure}{\numberline {III}{\ignorespaces IPsec : mode "agressive"}}{12}
 \contentsline {figure}{\numberline {IV}{\ignorespaces Session SSL}}{14}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {V}{\ignorespaces Sch\IeC {\'e}ma logique de l'infrastructure}}{21}
-\contentsline {figure}{\numberline {VI}{\ignorespaces Adressage des interfaces}}{21}
-\contentsline {figure}{\numberline {VII}{\ignorespaces Policies entre la zone Untrust et la DMZ}}{22}
-\contentsline {figure}{\numberline {VIII}{\ignorespaces Configuration du \textit {realm} d'authentification}}{22}
-\contentsline {figure}{\numberline {IX}{\ignorespaces Mappage des r\IeC {\^o}les dans le realm}}{23}
-\contentsline {figure}{\numberline {X}{\ignorespaces Ressources associ\IeC {\'e}es aux r\IeC {\^o}les}}{23}
-\contentsline {figure}{\numberline {XI}{\ignorespaces \textit {Bookmarks} associ\IeC {\'e}s \IeC {\`a} un membre du groupe It Tech}}{23}
-\contentsline {figure}{\numberline {XII}{\ignorespaces Profils VPN}}{24}
-\contentsline {figure}{\numberline {XIII}{\ignorespaces Sch\IeC {\'e}ma logique de l'infrastructure}}{25}
-\contentsline {figure}{\numberline {XIV}{\ignorespaces Groupe de machines utilisant DirectAccess}}{26}
-\contentsline {figure}{\numberline {XV}{\ignorespaces GPO pour le serveur Remote}}{26}
-\contentsline {figure}{\numberline {XVI}{\ignorespaces GPO pour les machines clientes}}{27}
-\contentsline {figure}{\numberline {XVII}{\ignorespaces V\IeC {\'e}rification de la connexion sur une machine cliente}}{27}
-\contentsline {figure}{\numberline {XVIII}{\ignorespaces Adressage des interfaces}}{28}
-\contentsline {figure}{\numberline {XIX}{\ignorespaces Adressage des interfaces}}{28}
-\contentsline {figure}{\numberline {XX}{\ignorespaces Configuration de l'authentification des utilisateurs}}{29}
-\contentsline {figure}{\numberline {XXI}{\ignorespaces Configuration des objets}}{30}
-\contentsline {figure}{\numberline {XXII}{\ignorespaces Configuration du groupe \textit {VPNAccess}}}{30}
-\contentsline {figure}{\numberline {XXIII}{\ignorespaces Configuration du profil de connexion}}{30}
+\contentsline {figure}{\numberline {V}{\ignorespaces Sch\IeC {\'e}ma logique de l'infrastructure}}{23}
+\contentsline {figure}{\numberline {VI}{\ignorespaces Adressage des interfaces}}{23}
+\contentsline {figure}{\numberline {VII}{\ignorespaces Policies entre la zone Untrust et la DMZ}}{24}
+\contentsline {figure}{\numberline {VIII}{\ignorespaces Configuration du \textit {realm} d'authentification}}{24}
+\contentsline {figure}{\numberline {IX}{\ignorespaces Mappage des r\IeC {\^o}les dans le realm}}{25}
+\contentsline {figure}{\numberline {X}{\ignorespaces Ressources associ\IeC {\'e}es aux r\IeC {\^o}les}}{25}
+\contentsline {figure}{\numberline {XI}{\ignorespaces \textit {Bookmarks} associ\IeC {\'e}s \IeC {\`a} un membre du groupe It Tech}}{25}
+\contentsline {figure}{\numberline {XII}{\ignorespaces Profils VPN}}{26}
+\contentsline {figure}{\numberline {XIII}{\ignorespaces Sch\IeC {\'e}ma logique de l'infrastructure}}{27}
+\contentsline {figure}{\numberline {XIV}{\ignorespaces Groupe de machines utilisant DirectAccess}}{28}
+\contentsline {figure}{\numberline {XV}{\ignorespaces GPO pour le serveur Remote}}{28}
+\contentsline {figure}{\numberline {XVI}{\ignorespaces GPO pour les machines clientes}}{29}
+\contentsline {figure}{\numberline {XVII}{\ignorespaces V\IeC {\'e}rification de la connexion sur une machine cliente}}{29}
+\contentsline {figure}{\numberline {XVIII}{\ignorespaces Adressage des interfaces}}{30}
+\contentsline {figure}{\numberline {XIX}{\ignorespaces Adressage des interfaces}}{30}
+\contentsline {figure}{\numberline {XX}{\ignorespaces Configuration de l'authentification des utilisateurs}}{31}
+\contentsline {figure}{\numberline {XXI}{\ignorespaces Configuration des objets}}{32}
+\contentsline {figure}{\numberline {XXII}{\ignorespaces Configuration du groupe \textit {VPNAccess}}}{32}
+\contentsline {figure}{\numberline {XXIII}{\ignorespaces Configuration du profil de connexion}}{32}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

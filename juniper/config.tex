@@ -1,10 +1,10 @@
 \section{Solution Juniper/Pulse}
 La solution de Juniper se base sur l'utilisation d'une passerelle SSL.
 Celle-ci gère les connexions entrantes, et attribue, aux connexions autorisées, l'accès aux ressources.
-La passerelle utilisée est une SA 2500 tournant sous Pulse Connect Secure 8.1R1.1.
+La passerelle utilisée dans le laboratoire est une SA 2500 tournant sous Pulse Connect Secure 8.1R1.1.
 Les clients distants peuvent se connecter soit via le portail Web, soit via le client Pulse Secure.
 
-Le client Pulse Secure est fourni par la passerelle.
+Le client Pulse Secure est délivré par la passerelle.
 Cette dernière peut distribuer le software à tous les utilisateurs authentifiés automatiquement ou en le téléchargeant via le portail Web.
 
 \subsection{Schéma de l'infrastructure}
@@ -21,8 +21,8 @@ Le firewall sert de routeur entre le réseau du labo (externe) et le réseau de 
 Il gère aussi les \textit{policies}, c'est-à-dire les règles entre les zones de sécurité établies dans la configuration.
 Dans mon réseau de test, j'ai créé deux zones en plus de celles pré-définies : la zone "Computers" et "Servers".
 
-Pour l'adressage (Fig.\ref{fig:ifJuniper} p.\pageref{fig:ifJuniper}), ma zone \textit{Untrust} est le labo. 
-L'interface associé possède l'adresse 192.168.6.185.
+Pour l'adressage (Fig.\ref{fig:ifJuniper} p.\pageref{fig:ifJuniper}), ma zone \textit{Untrust} est le laboratoire. 
+L'interface associée possède l'adresse 192.168.6.185.
 Les autres zones font parties du réseau de test et possèdent une adresse dans le réseau 172.16.0.0/16.
 J'utilise les VLAN 10 et 20 pour différencier le trafic des ordinateurs et des serveurs sur le même interface.
 L'utilisation de deux zones distinctes est une bonne pratique avec Juniper. 
@@ -34,7 +34,7 @@ Il est plus claire de créer des \textit{policies} entre des zones, que de crée
 	\label{fig:ifJuniper}
 \end{figure}
 
-Pour autoriser l'accès à la passerelle, l'utilisation d'un mappage est indispensable.
+Pour autoriser l'accès à la passerelle, l'utilisation d'un "NAT One-to-One" est indispensable.
 On a mappé l'adresse externe (192.168.6.209) avec l'adresse de la passerelle dans la DMZ (172.16.64.10).
 Le mappage ne suffit pas, il faut aussi autoriser le trafic entre la zone \textit{Untrust} et la DMZ (Fig.\ref{fig:polUnDMZ} p.\pageref{fig:polUnDMZ}).
 En suivant les règles de bonnes pratiques, j'autorise uniquement le trafic HTTPS et ESP entre un client en remote-access et la passerelle et je bloque tous les autres trafics.
@@ -99,7 +99,7 @@ La connexion se fait automatiquement.
 Pour une question de sécurité, la passerelle essaie d'établir une connexion en ESP et elle peut passer en SSL en cas d'échec de la connexion ESP.
 L'ESP se fait en encapsulant les paquets dans un paquet UDP sur un port précis.
 Mais si ce port est bloqué à un endroit entre le client et la passerelle, la connexion ESP est impossible.
-L'option de fallback peut être désactivé pour améliorer la sécurité. 
+L'option de fallback peut être désactivée pour améliorer la sécurité. 
 
 Comme les utilisateurs ont un rôle assigné, on définit à chaque rôle un espace d'adressage sur la passerelle pour les utilisateurs (voir Fig.\ref{fig:profilVPN} p.\pageref{fig:profilVPN}).
 Ainsi le rôle "It Tech" possède les adresses de l'espace 172.16.64.192/27 et le rôle "All Employee" celle de l'espace 172.16.64.224/27.

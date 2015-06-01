@@ -6,11 +6,12 @@ Ces deux ressources sont primordiales pour l'entreprise et pour les employés.
 L'accessibilité et la disponibilité de ces deux éléments sont capitales.
 
 L'accès aux mails depuis l'extérieur du réseau de l'entreprise est un avantage pour les employés.
-Ainsi, un employé, se trouvant en voyage d'affaire ou en déplacement chez un client, est à même de rester au courant des dernières nouvelles.
+Ainsi un employé, se trouvant en voyage d'affaire ou en déplacement chez un client, est à même de rester au courant des dernières nouvelles.
 Il peut aussi correspondre avec ses collègues, transmettre des informations,...
 Mais une mauvaise utilisation des mails peut mener à des problèmes sérieux.
+L'utilisation des mails professionnels doit servir uniquement à communiquer avec les collègues, les clients, les fournisseurs.
 
-L'accès aux fichiers est tout aussi important, mais les fichiers accessibles depuis l'extérieur doivent être contrôlés.
+L'accès aux fichiers est tout aussi important, mais l'accessibilité aux fichiers depuis l'extérieur doit être contrôlé.
 En effet, les fichiers critiques (bancaire, technologique, brevet, confidentiel,...) ne devraient pas être disponibles depuis l'extérieur.
 Ces fichiers sensibles pourraient mettre à mal la réputation, le fonctionnement de l'entreprise.
 
@@ -41,9 +42,9 @@ On estime qu'en Belgique 20\% des travailleurs utilisent le télétravail.
 Ce chiffre est en augmentation, mais les entreprises sont réticentes même si les mentalités changent.
 Le télétravail offre des avantages, comme le gain de temps dans les déplacements, une meilleure gestion du temps,...
 Mais pour l'entreprise, le télétravail comporte des risques.
-Un employeur ne sait pas forcément localiser ses employés, mais surtout il ne sait pas vérifier l'utilisation des donnés.
+Un employeur ne sait pas forcément localiser ses employés, mais surtout il ne sait pas vérifier l'utilisation des données.
 Il est donc normal que l'employeur mette des restrictions quant à l'accès aux ressources.
-\chapter{Méthodologie et objectifs}
+\chapter{Méthodologie}
 Pour réaliser ce TFE, j'ai commencé par m'approprier les connaissances théoriques nécessaire à la création d'un tunnel VPN.
 C'est-à-dire que j'ai étudié l'ensemble des protocoles utilisés, en me focalisant sur les principaux à savoir IPSec, SSL et TLS.
 
@@ -53,8 +54,15 @@ En plus des technologies, j'ai lu les guides d'administration des principales so
 Mais avant de les configurer pour créer les tunnels VPN, je les ai testé pour m'assurer du fonctionnement.
 
 En me basant sur l'infrastructure à ma disposition et les bonnes pratiques en architecture des réseaux, j'ai simulé un réseau d'entreprise contenant les composants habituels qui sont mis en œuvre.
+Avant de commencer les tests, une vérification des fonctionnalités de l'infrastructure a été nécessaire.
+J'ai vérifié, en interne, que mes ordinateurs clients avaient accès via Outlook au serveur Exchange,  que les GPOs s'appliquaient aux groupes concernés, que les accès sur les fichiers du DFS étaient contrôlés.
+En bref, je me suis assuré que mon réseau fonctionnait de manière cohérente et était disponible pour un utilisateur.
 
-Ensuite, j'ai réalisé les tests.
-Comme l'architecture variait entre les différentes solutions, j'ai testé les solutions l'une après l'autre. 
+Pour la configuration des passerelle et des équipements réseaux, je me suis basé sur les guides d'administration et les procédures internes de mon lieu de stage.
 
-Une fois les tests terminés, j'ai réalisé le comparatif sur des bases des critères sélectionnés. 
+Ensuite, j'ai réalisé les tests en simulant l'accès distant depuis une machine se trouvant dans le réseau du laboratoire.
+Comme l'architecture variait entre les différentes solutions, j'ai testé les solutions l'une après l'autre.
+Lors des tests, je prenais note des résultats sur un tableau.
+Ce tableau a servi de base au tableau de comparaison final.
+
+Une fois les tests terminés, j'ai réalisé le comparatif sur des bases des critères sélectionnés et des notes prises lors des tests. 
